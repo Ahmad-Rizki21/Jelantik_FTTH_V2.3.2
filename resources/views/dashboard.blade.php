@@ -99,16 +99,20 @@
                               </thead>
                               <tbody>
                               @foreach ($allReports as $no => $item)
-                                  <tr>
-                                      <th scope="row" style="text-align: center">{{ ++$no }}</th>
-                                      <td>{{ $item['name'] }}</td>
-                                      <td><span class="badge badge-primary">{{ $item['assigned'] }}</span></td>
-                                      <td><span class="badge badge-danger">{{ $item['expired'] }}</span></td>
-                                      <td><span class="badge badge-warning">{{ $item['warning'] }}</span></td>
-                                      <td><span class="badge badge-dark">{{ $item['pending'] }}</span></td>
-                                      <td><span class="badge badge-success">{{ $item['done'] }}</span></td>
-                                  </tr>
-                              @endforeach
+            <tr>
+                <th scope="row" style="text-align: center">{{ $no + 1 }}</th>
+                <td>{{ $item['name'] }}</td>
+                <td><span class="badge badge-primary">{{ $item['assigned'] }}</span></td>
+                <td><span class="badge badge-danger">{{ $item['expired'] }}</span></td>
+                <td><span class="badge badge-warning">{{ $item['warning'] }}</span></td>
+                <td><span class="badge badge-dark">{{ $item['pending'] }}</span></td>
+                <td>
+                    <span class="badge badge-success">
+                        {{ $item['done'] ?? 0 }}
+                    </span>
+                </td>
+            </tr>
+        @endforeach
                               </tbody>
                           </table>
                       </div>

@@ -98,15 +98,27 @@ class ReportService {
         return $assigned_plus;
     }
 
-    public function getAllTechnicianTickets(){
-        $technicians = User::role('Teknisi')->get();
-        $allReport = collect([]);
-        foreach($technicians as $technician){
-            $report = new ReportService(now()->format('Y'), now()->format('m'), $technician->id);
-            $combined = $allReport->push(['name' => $technician->name, 'assigned' => $report->getMonthlyTickets(), 'expired' => $report->getOverdueTickets('red'), 'warning' => $report->getOverdueTickets('yellow'), 'pending' => $report->getMonthlyPendingTickets(), 'done' => $report->getMonthlyDoneTickets()]);
-        }
-        return $combined;
+    public function getAllTechnicianTickets()
+{
+    $technicians = User::role('Teknisi')->get(); // Mengambil semua user dengan role "Teknisi"
+
+    $allReport = collect([]); // Membuat koleksi kosong untuk menyimpan laporan
+
+    foreach ($technicians as $technician) {
+        $report = new ReportService(now()->format('Y'), now()->format('m'), $technician->id);
+
+        $allReport->push([
+            'name' => $technician->name,
+            'assigned' => $report->getMonthlyTickets(),
+            'expired' => $report->getOverdueTickets('red'),
+            'warning' => $report->getOverdueTickets('yellow'),
+            'pending' => $report->getMonthlyPendingTickets(), // Melengkapi nama metode yang terpotong
+        ]);
     }
+
+    return $allReport; // Mengembalikan laporan gabungan
+}
+
 }
 
 

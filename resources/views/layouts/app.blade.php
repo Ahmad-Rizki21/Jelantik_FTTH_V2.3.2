@@ -6,7 +6,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Dashboard &mdash; HELPDESK SYSTEM</title>
-    <link rel="shortcut icon" href="{{ asset('assets/img/school.svg') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/img/Artacom1_transparent_Craiyon.png') }}" type="image/x-icon">
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/modules/fontawesome/css/all.min.css') }}">
@@ -61,10 +61,10 @@
             <div class="main-sidebar sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
-                        <a href="index.html">HELPDESK SYSTEM</a>
+                        <a href="index.html">TICKETING SYSTEM</a>
                     </div>
                     <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="index.html">HLD</a>
+                        <a href="index.html">TST</a>
                     </div>
                     <ul class="sidebar-menu">
                         <li class="menu-header">MAIN MENU</li>
@@ -96,7 +96,7 @@
                         <li class="{{ setActive('/projects') }}">
                             <a class="nav-link" href="{{ route('projects.index') }}">
                                 <i class="fas fa-project-diagram"></i>
-                                <span>Projects</span>
+                                <span>Data Pelanggan</span>
                             </a>
                         </li> 
                         @endcan
@@ -161,7 +161,7 @@
 
             <footer class="main-footer">
                 <div class="footer-left">
-                    Copyright &copy; 2020 <div class="bullet"></div> HELPDESK SYSTEM <div class="bullet"></div> All Rights
+                    Copyright &copy; 2024 <div class="bullet"></div> Ahmad Rizki <div class="bullet"></div> Tiketing System <div class="bullet"></div> All Rights
                     Reserved.
                 </div>
                 <div class="footer-right">

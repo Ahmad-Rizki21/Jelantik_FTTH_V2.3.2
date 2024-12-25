@@ -19,7 +19,7 @@
                             @csrf
                             @method('PUT')
                             <div class="form-group">
-                                <label>NAMA</label>
+                                <label>NAMA LAYANAN</label>
                                 <input type="text" name="name" value="{{ old('name', $customer->name) }}" placeholder="Masukkan nama Customer" class="form-control @error('name') is-invalid @enderror">
 
                                 @error('name')
@@ -29,7 +29,7 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label>ALAMAT</label>
                                 <textarea class="form-control address @error('address') is-invalid @enderror" name="address" placeholder="Masukkan Alamat" rows="10">{!! old('address', $customer->address) !!}</textarea>
                                 @error('address')
@@ -92,7 +92,7 @@
                                     {{ $message }}
                                 </div>
                                 @enderror
-                            </div>
+                            </div> -->
 
                             <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i> SIMPAN</button>
                             <button class="btn btn-warning btn-reset" type="reset"><i class="fa fa-redo"></i> RESET</button>

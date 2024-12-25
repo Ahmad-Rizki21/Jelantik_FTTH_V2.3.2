@@ -4,14 +4,14 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Tambah project</h1>
+                <h1>Tambah Pelanggan</h1>
             </div>
 
             <div class="section-body">
 
                 <div class="card">
                     <div class="card-header">
-                        <h4><i class="fas fa-bell"></i> Tambah project</h4>
+                        <h4><i class="fas fa-bell"></i> Tambah pelanggan</h4>
                     </div>
 
                     <div class="card-body">
@@ -19,7 +19,7 @@
                             @csrf
 
                             <div class="form-group">
-                                <label>NAMA PROJECT</label>
+                                <label>NAMA PELANGGAN</label>
                                 <input type="text" name="name" value="{{ old('name') }}" placeholder="Masukkan Judul project" class="form-control @error('name') is-invalid @enderror">
 
                                 @error('name')
@@ -30,6 +30,28 @@
                             </div>
 
                             <div class="form-group">
+                                <label>ID PELANGGAN</label>
+                                <input type="text" name="id_pel" value="{{ old('id_pel') }}" placeholder="Masukkan ID Pelanggan Baru" class="form-control @error('id_pel') is-invalid @enderror">
+
+                                @error('name')
+                                <div class="invalid-feedback" style="display: block">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>IP ADDRESS</label>
+                                <input type="text" name="ip" value="{{ old('ip') }}" placeholder="Masukkan IP Address" class="form-control @error('ip') is-invalid @enderror">
+
+                                @error('name')
+                                <div class="invalid-feedback" style="display: block">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+
+                            <!-- <div class="form-group">
                                 <label>CUSTOMER</label>
                                 <select class="form-control select-customer @error('customer_id') is-invalid @enderror" name="customer_id">
                                     <option value="">- SELECT CUSTOMER -</option>
@@ -163,7 +185,7 @@
                                     {{ $message }}
                                 </div>
                                 @enderror
-                            </div>
+                            </div> -->
 
 
                             <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i> SIMPAN</button>

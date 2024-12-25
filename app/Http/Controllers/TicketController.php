@@ -66,34 +66,53 @@ class TicketController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $this->validate($request,[
-            'updated_customer' => 'required',
-            'reporteddate' => 'required|date',
-            'sla_id' => 'required',
-            'summary' => 'required',
-            'detail' => 'required',
-            'technician_id' => 'required',
-        ]);
+{
+    // Validasi input
+    $this->validate($request, [
+        'updated_customer' => 'required',
+        'reporteddate' => 'required|date',
+        'sla_id' => 'required',
+        'summary' => 'required',
+        'detail' => 'required',
+        'technician_id' => 'required',
+    ]);
 
-        $year = today()->year;
-        $latest_ticket = Ticket::latest()->first();
+    $year = today()->year;
+
+    // Mendapatkan tiket terbaru
+    $latest_ticket = Ticket::latest()->first();
+
+    // Menentukan nomor tiket baru
+    if ($latest_ticket) {
         $last_number = Str::of($latest_ticket->number)->explode('/');
-        $new_number = $last_number->get(0)+1;
-        $ticket = Ticket::create([
-            'number' => $new_number."/".$year,
-            'sla_id' => $request->input('sla_id'),
-            'reportedby' => Auth::id(),
-            'customer_id' => $request->input('updated_customer'),
-            'reporteddate' => $request->input('reporteddate'),
-            'problemsummary' => $request->input('summary'),
-            'problemdetail' => $request->input('detail'),
-            'status' => 'Assigned',
-            'assignee' => $request->input('technician_id'),
-            'assigneddate' => now() 
-         ]);
+        $new_number = (int)$last_number->get(0) + 1;
+    } else {
+        $new_number = 1; // Nomor awal jika tabel kosong
+    }
 
-         $ticket->save();
+    // Membuat tiket baru
+    $ticket = Ticket::create([
+        'number' => $new_number . "/" . $year,
+        'sla_id' => $request->input('sla_id'),
+        'reportedby' => Auth::id(),
+        'customer_id' => $request->input('updated_customer'),
+        'reporteddate' => $request->input('reporteddate'),
+        'problemsummary' => $request->input('summary'),
+        'problemdetail' => $request->input('detail'),
+        'status' => 'Assigned',
+        'assignee' => $request->input('technician_id'),
+        'assigneddate' => now(),
+    ]);
+
+    // Menyimpan tiket
+    $ticket->save();
+
+    // Mengembalikan respon (jika dibutuhkan)
+    // return response()->json([
+    //     'message' => 'Ticket created successfully',
+    //     'ticket' => $ticket,
+    // ], 201);
+
          
 
          if($ticket){

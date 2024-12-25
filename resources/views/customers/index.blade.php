@@ -4,7 +4,7 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Berita</h1>
+            <h1>Brand</h1>
         </div>
 
         <div class="section-body">
@@ -37,13 +37,8 @@
                             <thead>
                             <tr>
                                 <th scope="col" style="text-align: center;width: 6%">NO.</th>
-                                <th scope="col">NAMA</th>
-                                <th scope="col">ALAMAT</th>
-                                <th scope="col">TELEPON</th>
-                                <th scope="col">EMAIL</th>
-                                <th scope="col">PIC</th>
-                                <th scope="col">SALES</th>
-                                <th scope="col">PRODUCT</th>
+                                <th scope="col">JENIS LAYANAN</th>
+                        
                                 <th scope="col" style="width: 15%;text-align: center">AKSI</th>
                             </tr>
                             </thead>
@@ -52,12 +47,11 @@
                                 <tr>
                                     <th scope="row" style="text-align: center">{{ ++$no + ($customers->currentPage()-1) * $customers->perPage() }}</th>
                                     <td>{{ $customer->name }}</td>
-                                    <td>{{ $customer->address }}</td>
+                                    <!-- <td>{{ $customer->address }}</td>
                                     <td>{{ $customer->phone }}</td>
-                                    <td>{{ $customer->email }}</td>
-                                    <td>{{ $customer->pic }}</td>
-                                    <td>{{ $customer->salesperson }}</td>
-                                    <td>{{ $customer->product }}</td>
+                                    <td>{{ $customer->id_pel }}</td>
+                                    <td>{{ $customer->ip }}</td>
+                                    <td>{{ $customer->layanan }}</td> -->
                                     <td class="text-center">
                                         @can('customers.edit')
                                             <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-sm btn-primary">

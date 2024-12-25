@@ -19,7 +19,7 @@
                             @csrf
 
                             <div class="form-group">
-                                <label>NAMA</label>
+                                <label>NAMA LAYANAN</label>
                                 <input type="text" name="name" value="{{ old('name') }}" placeholder="Masukkan nama Customer" class="form-control @error('name') is-invalid @enderror">
 
                                 @error('name')
@@ -29,7 +29,7 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label>ALAMAT</label>
                                 <textarea class="form-control address @error('address') is-invalid @enderror" name="address" placeholder="Masukkan Alamat" rows="10">{!! old('address') !!}</textarea>
                                 @error('address')
@@ -50,11 +50,12 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group">
-                                <label>EMAIL</label>
-                                <input type="email" name="email" value="{{ old('email') }}" placeholder="Masukkan Alamat Email" class="form-control @error('email') is-invalid @enderror">
 
-                                @error('email')
+                            <div class="form-group">
+                                <label>ID-PEL</label>
+                                <input type="text" name="id_pel" value="{{ old('id_pel') }}" placeholder="Masukan ID Pelanggan" class="form-control @error('id_pel') is-invalid @enderror">
+
+                                @error('id_pel')
                                 <div class="invalid-feedback" style="display: block">
                                     {{ $message }}
                                 </div>
@@ -62,10 +63,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label>PIC</label>
-                                <input type="text" name="pic" value="{{ old('pic') }}" placeholder="Masukkan Nama PIC" class="form-control @error('pic') is-invalid @enderror">
+                                <label>IP ADDRESS</label>
+                                <input type="text" name="ip" value="{{ old('ip') }}" placeholder="Masukkan Ip Address" class="form-control @error('ip') is-invalid @enderror">
 
-                                @error('pic')
+                                @error('ip')
                                 <div class="invalid-feedback" style="display: block">
                                     {{ $message }}
                                 </div>
@@ -73,26 +74,15 @@
                             </div>
 
                             <div class="form-group">
-                                <label>SALES PERSON</label>
-                                <input type="text" name="salesperson" value="{{ old('salesperson') }}" placeholder="Masukkan Nama Sales Person" class="form-control @error('salesperson') is-invalid @enderror">
+                                <label>LAYANAN</label>
+                                <input type="text" name="layanan" value="{{ old('layanan') }}" placeholder="Masukkan Nama Layanan" class="form-control @error('layanan') is-invalid @enderror">
 
-                                @error('salesperson')
+                                @error('layanan')
                                 <div class="invalid-feedback" style="display: block">
                                     {{ $message }}
                                 </div>
                                 @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label>PRODUK</label>
-                                <input type="text" name="product" value="{{ old('product') }}" placeholder="Masukkan Nama Produk" class="form-control @error('product') is-invalid @enderror">
-
-                                @error('product')
-                                <div class="invalid-feedback" style="display: block">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
+                            </div> -->
 
                             <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i> SIMPAN</button>
                             <button class="btn btn-warning btn-reset" type="reset"><i class="fa fa-redo"></i> RESET</button>
