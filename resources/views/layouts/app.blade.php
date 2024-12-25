@@ -83,14 +83,14 @@
                         </li>
                         @endcan
                         
-                        @can('news.index')
+                        <!-- @can('news.index')
                         <li class="{{ setActive('/news') }}">
                             <a class="nav-link" href="{{ route('news.index') }}">
                                 <i class="fas fa-newspaper"></i>
                                 <span>News</span>
                             </a>
                         </li>
-                        @endcan
+                        @endcan -->
                         
                         @can('projects.index')
                         <li class="{{ setActive('/projects') }}">

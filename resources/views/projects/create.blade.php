@@ -51,10 +51,10 @@
                                 @enderror
                             </div>
 
-                            <!-- <div class="form-group">
-                                <label>CUSTOMER</label>
+                            <div class="form-group">
+                                <label>LAYANAN</label>
                                 <select class="form-control select-customer @error('customer_id') is-invalid @enderror" name="customer_id">
-                                    <option value="">- SELECT CUSTOMER -</option>
+                                    <option value="">- SELECT LAYANAN -</option>
                                     @foreach ($customers as $customer)
                                         <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                                     @endforeach
@@ -66,7 +66,7 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group">
+                           <!--  <div class="form-group">
                                 <label>DELIVERY START</label>
                                 <input type="date" name="deliverystart"  class="form-control @error('deliverystart') is-invalid @enderror">
 
