@@ -6,6 +6,8 @@
             </a>
         </x-slot>
 
+        <div class="bg-cover bg-center min-h-screen" style="background-image: url('{{ asset('assets/img/bbg.jpg') }}');"></div>
+
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 

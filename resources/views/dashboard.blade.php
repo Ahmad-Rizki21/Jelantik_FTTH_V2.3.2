@@ -90,7 +90,7 @@
                               <tr>
                                   <th scope="col" style="text-align: center;width: 6%">NO.</th>
                                   <th scope="col">NAME</th>
-                                  <th scope="col">ASSIGNED</th>
+                                  <th scope="col">OPEN</th>
                                   <th scope="col">EXPIRED</th>
                                   <th scope="col">WARNING</th>
                                   <th scope="col">PENDING</th>

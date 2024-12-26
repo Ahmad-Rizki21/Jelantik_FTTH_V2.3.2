@@ -1,13 +1,13 @@
 <x-guest-layout>
     <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
+    <x-slot name="logo">
+          <a href="/">
+                <img src="{{ asset('assets/img/Untitled design (8).png') }}" alt="logo" class="w-100 h-50 ">
+            </a> 
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+            {{ __('Jangan panik cuyy kalo lupa PW masukin email lagi yang digunakan untuk login ke Dashboard Okee??') }}
         </div>
 
         <!-- Session Status -->

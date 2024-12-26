@@ -99,7 +99,7 @@ class TicketController extends Controller
         'reporteddate' => $request->input('reporteddate'),
         'problemsummary' => $request->input('summary'),
         'problemdetail' => $request->input('detail'),
-        'status' => 'Assigned',
+        'status' => 'Open',
         'assignee' => $request->input('technician_id'),
         'assigneddate' => now(),
     ]);
@@ -121,7 +121,7 @@ class TicketController extends Controller
             $user = Auth::user();
             $subject = 'Membuat Tiket No '. $ticket->number;
             event(new ProvidersLogActivity($user, $subject));
-            Mail::to($technician->email)->queue(new MailNotify($ticket));
+            // Mail::to($technician->email)->queue(new MailNotify($ticket));
             // dispatch(new SendEmailJob($technician->email, $ticket));
             return redirect()->route('tickets.index')->with(['success' => 'Tiket Berhasil Dibuat']);
             
@@ -186,6 +186,7 @@ class TicketController extends Controller
             'assignee' => $request->input('technician_id'),
             'resolution' => $request->input('resolution'),
             'status' => $request->input('status')
+         
          ]);
 
          if($ticket){

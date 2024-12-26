@@ -41,7 +41,7 @@ class ReportService {
                                     ->whereYear('reporteddate', $this->year)
                                     ->whereMonth('reporteddate', $this->month)
                                     ->Where('status', 'Closed')
-                                    ->where('assignee', $this->id);
+                                    ->where('open', $this->id);
                                 })->count(); 
         return $monthlyDoneTickets;   
     }

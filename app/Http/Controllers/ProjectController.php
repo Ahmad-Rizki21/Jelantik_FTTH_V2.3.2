@@ -55,34 +55,38 @@ class ProjectController extends Controller
     {
         $this->validate($request,[
             'name' => 'required',
+            'id_pel' => 'required',
+            'ip' => 'required',
             'customer_id' => 'required',
-            'deliverystart' => 'required',
-            'deliveryend' => 'required',
-            'installstart' => 'required',
-            'installend' => 'required',
-            'uatstart' => 'required',
-            'uatend' => 'required',
-            'billstart' => 'required',
-            'billdue' => 'required',
-            'warrantyperiod' => 'required',
-            'contractstart' => 'required',
-            'contractperiod' => 'required',
+            // 'deliverystart' => 'required',
+            // 'deliveryend' => 'required',
+            // 'installstart' => 'required',
+            // 'installend' => 'required',
+            // 'uatstart' => 'required',
+            // 'uatend' => 'required',
+            // 'billstart' => 'required',
+            // 'billdue' => 'required',
+            // 'warrantyperiod' => 'required',
+            // 'contractstart' => 'required',
+            // 'contractperiod' => 'required'
         ]);
 
         $project = Project::create([
             'name' => $request->name,
+            'id_pel' => $request->id_pel,
+            'ip' => $request->ip,
             'customer_id' => $request->customer_id,
-            'deliverystart' => $request->deliverystart,
-            'deliveryend' => $request->deliveryend,
-            'installstart' => $request->installstart,
-            'installend' => $request->installend,
-            'uatstart' => $request->uatstart,
-            'uatend' => $request->uatend,
-            'billstart' => $request->billstart,
-            'billdue' => $request->billdue,
-            'warrantyperiod' => $request->warrantyperiod,
-            'contractstart' => $request->contractstart,
-            'contractperiod' =>$request->contractperiod,
+            // 'deliverystart' => $request->deliverystart,
+            // 'deliveryend' => $request->deliveryend,
+            // 'installstart' => $request->installstart,
+            // 'installend' => $request->installend,
+            // 'uatstart' => $request->uatstart,
+            // 'uatend' => $request->uatend,
+            // 'billstart' => $request->billstart,
+            // 'billdue' => $request->billdue,
+            // 'warrantyperiod' => $request->warrantyperiod,
+            // 'contractstart' => $request->contractstart,
+            // 'contractperiod' =>$request->contractperiod,
          ]);
 
          $project->save();
@@ -132,18 +136,9 @@ class ProjectController extends Controller
     {
         $this->validate($request,[
             'name' => 'required',
+            'id_pel' => 'required',
+            'ip' => 'required',
             'customer_id' => 'required',
-            'deliverystart' => 'required',
-            'deliveryend' => 'required',
-            'installstart' => 'required',
-            'installend' => 'required',
-            'uatstart' => 'required',
-            'uatend' => 'required',
-            'billstart' => 'required',
-            'billdue' => 'required',
-            'warrantyperiod' => 'required',
-            'contractstart' => 'required',
-            'contractperiod' => 'required',
         ]);
 
         $project = Project::findOrFail($id);
@@ -151,18 +146,9 @@ class ProjectController extends Controller
 
         $project->update([
             'name' => $request->name,
+            'id_pel' => $request->id_pel,
+            'ip' => $request->ip,
             'customer_id' => $request->customer_id,
-            'deliverystart' => $request->deliverystart,
-            'deliveryend' => $request->deliveryend,
-            'installstart' => $request->installstart,
-            'installend' => $request->installend,
-            'uatstart' => $request->uatstart,
-            'uatend' => $request->uatend,
-            'billstart' => $request->billstart,
-            'billdue' => $request->billdue,
-            'warrantyperiod' => $request->warrantyperiod,
-            'contractstart' => $request->contractstart,
-            'contractperiod' =>$request->contractperiod,
          ]);
 
          if($project){

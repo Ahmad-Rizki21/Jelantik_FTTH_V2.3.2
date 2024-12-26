@@ -50,22 +50,22 @@ class CustomerController extends Controller
     {
         $this->validate($request, [
             'name'     => 'required',
-            'address'   => 'required',
-            'phone'   => 'required|max:15',
-            'email'   => 'required|email',
-            'pic'   => 'required',
-            'salesperson'   => 'required',
-            'product'   => 'required',
+            // 'address'   => 'required',
+            // 'phone'   => 'required|max:15',
+            // 'email'   => 'required|email',
+            // 'pic'   => 'required',
+            // 'salesperson'   => 'required',
+            // 'product'   => 'required',
         ]);
 
         $customers = Customer::create([
             'name'     => $request->name,
-            'address'     => $request->address,
-            'phone'     => $request->phone,
-            'email'     => $request->email,
-            'pic'     => $request->pic,
-            'salesperson'     => $request->salesperson,
-            'product'     => $request->product,
+            // 'address'     => $request->address,
+            // 'phone'     => $request->phone,
+            // 'email'     => $request->email,
+            // 'pic'     => $request->pic,
+            // 'salesperson'     => $request->salesperson,
+            // 'product'     => $request->product,
         ]);
 
         if($customers){
@@ -112,24 +112,24 @@ class CustomerController extends Controller
         
         $this->validate($request, [
             'name'     => 'required',
-            'address'   => 'required',
-            'phone'   => 'required|max:15',
-            'email'   => 'required|email',
-            'pic'   => 'required',
-            'salesperson'   => 'required',
-            'product'   => 'required',
+            // 'address'   => 'required',
+            // 'phone'   => 'required|max:15',
+            // 'email'   => 'required|email',
+            // 'pic'   => 'required',
+            // 'salesperson'   => 'required',
+            // 'product'   => 'required',
         ]);
 
         $customer = Customer::findOrFail($id);
 
         $customer->update([
             'name'     => $request->name,
-            'address'     => $request->address,
-            'phone'     => $request->phone,
-            'email'     => $request->email,
-            'pic'     => $request->pic,
-            'salesperson'     => $request->salesperson,
-            'product'     => $request->product,
+            // 'address'     => $request->address,
+            // 'phone'     => $request->phone,
+            // 'email'     => $request->email,
+            // 'pic'     => $request->pic,
+            // 'salesperson'     => $request->salesperson,
+            // 'product'     => $request->product,
         ]);
 
         if($customer){

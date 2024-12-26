@@ -156,7 +156,7 @@
                                         <label>CHANGE STATUS</label>
                                         <select name="status" id="status" class="form-control select-status @error('status') is-invalid @enderror" >
                                             <option value="">-- Ganti Status --</option>
-                                            <option value="Assigned" @if ($ticket->status == "Assigned") selected @endif>Assigned</option>
+                                            <option value="Open" @if ($ticket->status == "Open") selected @endif>Open</option>
                                             <option value="Pending" @if ($ticket->status == "Pending") selected @endif>Pending</option>
                                             <option value="Closed" @if ($ticket->status == "Closed") selected @endif>Closed</option>
                                         </select>

@@ -31,4 +31,14 @@ class Ticket extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    // public function getDoneAttribute()
+    // {
+    //     return $this->tasks()->where('status', 'closed')->count();
+    // }
+
+    // public function tasks()
+    // {
+    //     return $this->hasMany(Task::class);
+    // }
+
 }
