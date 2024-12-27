@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
+    // Menambahkan relasi reportedby
+    public function reportedby()
+    {
+        return $this->belongsTo(User::class, 'reportedby');
+    }
+
     use HasFactory;
 
     protected $guarded = [];
@@ -30,6 +36,7 @@ class Ticket extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+    
 
     // public function getDoneAttribute()
     // {

@@ -9,12 +9,16 @@ use App\Mail\MailNotify;
 use App\Models\Customer;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Providers\LogActivity as ProvidersLogActivity;
 
 class TicketController extends Controller
 {
+
+
+    
     /**
      * __construct
      *
@@ -25,6 +29,8 @@ class TicketController extends Controller
         $this->middleware(['permission:tickets.index|tickets.create|tickets.edit|tickets.delete']);
     }
     
+    
+
     /**
      * Display a listing of the resource.
      *

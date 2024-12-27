@@ -7,12 +7,20 @@
             <h1>Ticket</h1>
         </div>
 
+       
         <div class="section-body">
 
             <div class="card">
                 <div class="card-header">
                     <h4><i class="fas fa-clipboard-list"></i> Tickets</h4>
                 </div>
+
+                <div class="d-flex justify-content-end ">
+                    <a href="{{ route('ticket.report') }}" class="btn btn-success" style="width: 150px; height: 35px; margin-right: 25px">Export Tickets</a>
+                </div>
+ 
+
+
 
                 <div class="card-body">
                     <form action="{{ route('tickets.index') }}" method="GET">
