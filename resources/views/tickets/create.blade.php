@@ -111,7 +111,7 @@
     window.addEventListener('customer-updated', event => {
         document.getElementById('updated_customer').value = event.detail.selectedCustomer;
     })
-<<<<<<< HEAD
+
 
 //     <script>
 //     $(document).ready(function () {
@@ -142,9 +142,6 @@
 //             $('#select-project').val(null).trigger('change');
 //         });
 //     });
-// </script>
-
-=======
->>>>>>> a92951c85166b29d30c5a8a10bd447091bda8c1b
+// 
 </script>
 
