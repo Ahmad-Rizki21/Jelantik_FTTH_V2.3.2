@@ -115,32 +115,29 @@
         @endforeach
                               </tbody>
                           </table>
-                      </div>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- <div class="col-4">
-                <div class="card">
-                  <div class="card-header">
-                      <h4><i class="fas fa-clipboard-list"></i> BERITA </h4>
+                          <div class="card-header">
+                      <h4><i class="fas fa-clipboard-list"></i> ANNOUNCEMENT </h4>
                   </div>
                   <div class="card-body">
                     @foreach ($news as $item)
                       <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-light flex-column align-items-start">
+                        <a href="#" class="list-group-item list-group-item-action list-group-item-light flex-column align-items-start mb-3">
                           <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">{{ $item->title }}</h5>
+                            <h5 class="mb-2">{{ $item->title }}</h5>
                           </div>
-                          <p class="mb-1">{{ $item->detail }}</p>
+                          <p class="mb-2">{{ $item->detail }}</p>
                           <small>created by : {{  $user->getName($item->user_id) }}</small>
                           <small> - {{ Carbon\Carbon::parse($item->updated_at)->diffForHumans() }}</small>
                         </a>
                       </div>
                     @endforeach
                   </div>
+                      </div>
+                  </div>
                 </div>
-              </div> -->
+              </div>
+              
+
             </div>
         </div>
 

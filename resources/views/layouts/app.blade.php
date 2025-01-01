@@ -83,6 +83,7 @@
                         </li>
                         @endcan
                         
+                        <!-- Untuk menambahkan informasi uncoment saja code ini -->
                         <!-- @can('news.index')
                         <li class="{{ setActive('/news') }}">
                             <a class="nav-link" href="{{ route('news.index') }}">
@@ -91,7 +92,9 @@
                             </a>
                         </li>
                         @endcan -->
-                        
+                        <!-- Untuk menambahkan informasi uncoment saja code ini -->
+
+
                         @can('projects.index')
                         <li class="{{ setActive('/projects') }}">
                             <a class="nav-link" href="{{ route('projects.index') }}">
