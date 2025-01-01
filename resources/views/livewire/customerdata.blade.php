@@ -12,16 +12,15 @@
                 </select>
                 
 
-                {{-- <label>PROJECT</label>
+              <label>PROJECT</label>
                 <select wire:model = "selectedproject" class="form-control" name="project_id">
                     <option value="">-- SELECT PROJECT --</option>
                     @foreach ($customerproject as $project)
                         <option value="{{ $project->id }}">{{ $project->name }}</option>
                     @endforeach
-                </select> --}}
+                </select>
 
                 
 
-                {{-- <input type="text" name="warranty" value="{{ $projects->warranty }}" class="form-control"> --}}
-            
+                <input type="text" name="warranty" value="{{ $projects->warranty }}" class="form-control"> 
 </div>

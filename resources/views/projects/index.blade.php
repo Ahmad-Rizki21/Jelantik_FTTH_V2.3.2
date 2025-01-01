@@ -60,6 +60,7 @@
                                     <th scope="row" style="text-align: center">{{ ++$no + ($projects->currentPage()-1) * $projects->perPage() }}</th>
                                     <td>{{ $project->name }}</td>
                                     <td>{{ $project->id_pel }}</td>
+                                    
                                     <td>{{ $project->ip }}</td>
                                     <td>{{ $customer->getName($project->customer_id) }}</td>
                                     <!-- <td>{{ Carbon\Carbon::parse($project->deliverystart)->format('d M Y') }}</td>

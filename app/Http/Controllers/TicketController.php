@@ -154,6 +154,13 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    //  public function edit($id)
+    // {
+    //     $ticket = Ticket::find($id);
+    //     $customers = Customer::all(); // Mengambil daftar customer
+    //     return view('tickets.edit', compact('ticket', 'slas', 'users', 'customer')); // Mengirimkan data ke view
+    // }
     public function edit($id)
     {
         $ticket = Ticket::findOrFail($id);
@@ -161,7 +168,7 @@ class TicketController extends Controller
         $users = User::role('teknisi')->get();
         $customer = new Customer;
         return view('tickets.edit', compact('ticket', 'slas', 'users', 'customer'));
-    }
+    }   
 
     /**
      * Update the specified resource in storage.
