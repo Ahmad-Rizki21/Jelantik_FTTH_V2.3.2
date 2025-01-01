@@ -37,9 +37,9 @@ class TicketReportController extends Controller
         $row = 2; // Dimulai dari baris kedua setelah header
         foreach ($tickets as $ticket) {
             $sheet->setCellValue('A' . $row, $ticket->number); // Ticket Number
-            $sheet->setCellValue('B' . $row, optional($ticket->reportedby)->project ?: 'Unknown'); // Name
+            $sheet->setCellValue('B' . $row, optional($ticket->reportedby)->project ); // Name
             $sheet->setCellValue('C' . $row, $ticket->reportedby); // id_pel
-            $sheet->setCellValue('D' . $row, $ticket->ip_address); // IP (pastikan tiket menyimpan IP address)
+            $sheet->setCellValue('D' . $row, $ticket->ip); // IP (pastikan tiket menyimpan IP address)
             $sheet->setCellValue('E' . $row, $ticket->customer->name); // Customer Name (relasi)
             $sheet->setCellValue('F' . $row, $ticket->reporteddate); // Reported Date
             $sheet->setCellValue('G' . $row, $ticket->problemsummary); // Problem Summary

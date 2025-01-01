@@ -43,43 +43,49 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
-                            <tr>
-                                <th scope="col" style="text-align: center;width: 6%">NO.</th>
-                                <th scope="col">NOMOR</th>
-                                <th scope="col">URGENCY</th>
-                                <th scope="col">CUSTOMER</th>
-                                <th scope="col">REPORTED</th>
-                                <th scope="col">PROBLEM</th>
-                                <th scope="col">STATUS</th>
-                                <th scope="col" style="width: 15%;text-align: center">AKSI</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach ($tickets as $no => $ticket)
-                                <tr>
-                                    <th scope="row" style="text-align: center">{{ ++$no + ($tickets->currentPage()-1) * $tickets->perPage() }}</th>
-                                    <td>{{ $ticket->number }}</td>
-                                    <td>{{ $ticket->sla->name }}</td>
-                                    <td>{{ $ticket->customer->name }}</td>
-                                    <td>{{ Carbon\Carbon::parse($ticket->reporteddate)->format('d M Y - H:i') }}</td>
-                                    <td>{{ $ticket->problemsummary }}</td>
-                                    <td>{{ $ticket->status }}</td>
-                                    <td class="text-center">
-                                        @can('tickets.edit')
-                                            <a href="{{ route('tickets.edit', $ticket->id) }}" class="btn btn-sm btn-primary">
-                                                <i class="fa fa-pencil-alt"></i>
-                                            </a>
-                                        @endcan
+    <tr>
+        <th scope="col" style="text-align: center;width: 6%">NO.</th>
+        <th scope="col">NOMOR</th>
+        <th scope="col">URGENCY</th>
+        <th scope="col">CUSTOMER</th>
+        <th scope="col">REPORTED</th>
+        <th scope="col">PROBLEM</th>
+        <th scope="col">ID PEL</th> <!-- Kolom baru untuk `id_pel` -->
+        <th scope="col">STATUS</th>
+        <th scope="col" style="width: 15%;text-align: center">AKSI</th>
+    </tr>
+</thead>
+<tbody>
+@foreach ($tickets as $no => $ticket)
+    <tr>
+        <th scope="row" style="text-align: center">{{ ++$no + ($tickets->currentPage()-1) * $tickets->perPage() }}</th>
+        <td>{{ $ticket->number }}</td>
+        <td>{{ $ticket->sla->name }}</td>
+        <td>{{ $ticket->customer->name }}</td>
+        <td>{{ Carbon\Carbon::parse($ticket->reporteddate)->format('d M Y - H:i') }}</td>
+        <td>{{ $ticket->problemsummary }}</td>
+        <td>
+            <!-- Menampilkan id_pel dari relasi project -->
+            {{ $ticket->project ? $ticket->project->id_pel : 'Tidak ada ' }}
+        </td>
+        <td>{{ $ticket->status }}</td>
+        <td class="text-center">
+            @can('tickets.edit')
+                <a href="{{ route('tickets.edit', $ticket->id) }}" class="btn btn-sm btn-primary">
+                    <i class="fa fa-pencil-alt"></i>
+                </a>
+            @endcan
 
-                                        @can('tickets.delete')
-                                            <button onClick="Delete(this.id)" class="btn btn-sm btn-danger" id="{{ $ticket->id }}">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        @endcan
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
+            @can('tickets.delete')
+                <button onClick="Delete(this.id)" class="btn btn-sm btn-danger" id="{{ $ticket->id }}">
+                    <i class="fa fa-trash"></i>
+                </button>
+            @endcan
+        </td>
+    </tr>
+@endforeach
+</tbody>
+
                         </table>
                         <div style="text-align: center">
                             {{$tickets->links("vendor.pagination.bootstrap-4")}}

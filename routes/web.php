@@ -96,6 +96,7 @@ Route::get('/tickets/{id}/edit', [TicketController::class, 'edit'])->name('ticke
 
 
 
+
 });
 
 // Authentication Routes

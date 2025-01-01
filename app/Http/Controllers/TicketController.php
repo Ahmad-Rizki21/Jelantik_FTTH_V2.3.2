@@ -18,8 +18,7 @@ class TicketController extends Controller
 {
 
 
-    
-    /**
+      /**
      * __construct
      *
      * @return void
@@ -38,6 +37,8 @@ class TicketController extends Controller
      */
     public function index()
     {
+
+
         if(Auth::user()->hasRole('Teknisi'))
         {
             $tickets = Ticket::where('assignee', Auth::id())->latest()->when(request()->q, function($tickets) {
@@ -51,6 +52,8 @@ class TicketController extends Controller
         
 
         return view('tickets.index', compact('tickets'));
+
+       
     }
 
     /**

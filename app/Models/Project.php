@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+
     use HasFactory;
 
     protected $guarded = [];
@@ -16,3 +17,4 @@ class Project extends Model
         return $this->belongsTo(Customer::class);
     }
 }
+

@@ -7,6 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
+
+
+   
+
+    // Mendefinisikan relasi belongsTo dengan Project
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+
+
     // Menambahkan relasi reportedby
     public function reportedby()
     {

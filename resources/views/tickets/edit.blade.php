@@ -32,12 +32,12 @@
 
                             <br>
 
-                            <!-- @hasrole('Teknisi')
+                            @hasrole('Teknisi')
                                 <div class="form-group">
                                     <label>CUSTOMER</label>
                                     <input type="text" name="customer" value="{{ old('customer', $customer->find($ticket->customer_id)->first()->value('name')) }}" class="form-control" readonly>
                                 </div>
-                            @endhasrole -->
+                            @endhasrole
 
                             <div class="form-group">
                                 <label>TICKET NO</label>
