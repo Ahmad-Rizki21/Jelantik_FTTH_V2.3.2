@@ -219,6 +219,13 @@
         });
         @endif
     </script>
+    <script>
+        document.addEventListener('livewire:load', () => {
+            Livewire.hook('message.processed', (message, component) => {
+                console.log('Projects updated');
+            });
+        });
+    </script>
 
     <livewire:scripts />
 </body>

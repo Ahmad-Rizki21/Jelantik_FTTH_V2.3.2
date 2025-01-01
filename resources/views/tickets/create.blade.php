@@ -111,5 +111,37 @@
     window.addEventListener('customer-updated', event => {
         document.getElementById('updated_customer').value = event.detail.selectedCustomer;
     })
+
+//     <script>
+//     $(document).ready(function () {
+//         $('#select-project').select2({
+//             placeholder: 'Select Project',
+//             ajax: {
+//                 url: '/projects-by-customer',
+//                 dataType: 'json',
+//                 delay: 250,
+//                 data: function (params) {
+//                     return {
+//                         customer_id: $('#select-customer').val(),
+//                         search: params.term // Pencarian berdasarkan input
+//                     };
+//                 },
+//                 processResults: function (data) {
+//                     return {
+//                         results: data.map(item => ({
+//                             id: item.id,
+//                             text: `${item.name} | ${item.id_pel} | ${item.ip_address}`
+//                         }))
+//                     };
+//                 }
+//             }
+//         });
+
+//         $('#select-customer').on('change', function () {
+//             $('#select-project').val(null).trigger('change');
+//         });
+//     });
+// </script>
+
 </script>
 

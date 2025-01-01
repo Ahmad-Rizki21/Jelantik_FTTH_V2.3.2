@@ -182,4 +182,20 @@ class ProjectController extends Controller
             ]);
         }
     }
+    // app/Http/Controllers/ProjectController.php
+
+    public function searchProject(Request $request)
+    {
+        $searchTerm = $request->input('search');
+
+        // Melakukan pencarian berdasarkan nama, ID-pel, atau IP address
+        $projects = Project::where('name', 'LIKE', "%$searchTerm%")
+                        ->orWhere('id_pel', 'LIKE', "%$searchTerm%")
+                        ->orWhere('ip', 'LIKE', "%$searchTerm%")
+                        ->get();
+
+        // Mengembalikan hasil pencarian sebagai JSON
+        return response()->json($projects);
+    }
+
 }

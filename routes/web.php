@@ -87,6 +87,10 @@ Route::group(['middleware' => 'auth'], function() {
 
     // Route::get('/ticket-report', [TicketReportController::class, 'export'])->name('ticket.report');
 
+    // routes/web.php
+Route::get('/search-project', [ProjectController::class, 'searchProject']);
+
+
 });
 
 // Authentication Routes

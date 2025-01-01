@@ -9,11 +9,10 @@ use App\Models\Project;
 class CustomerProject extends Component
 {
     public $selectedCustomer = null;
-    public $selectedProject = null;
-    public $projects = null;
+    public $projects = [];
     public $customerProject = null;
 
-    public function mount($customerId)
+    public function mount($customerId = null)
     {
         $this->selectedCustomer = $customerId;
     }
@@ -27,14 +26,10 @@ class CustomerProject extends Component
 
     public function updatedSelectedCustomer($customer_id)
     {
-        $this->projects = Project::where('customer_id', $customer_id)->get();
+        $this->projects = Project::where('customer_id', $customer_id)
+            ->select('id', 'name', 'id_pel', 'ip')
+            ->get();
 
-        $this->dispatchBrowserEvent('customer-updated', ['selectedCustomer' => $customer_id]);
+        $this->dispatchBrowserEvent('projects-loaded', ['projects' => $this->projects]);
     }
-
-    public function updatedSelectedProject($project_id)
-    {
-        $this->customerProject = Project::findOrFail($project_id);
-    }
-
 }
