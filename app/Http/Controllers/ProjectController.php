@@ -182,6 +182,7 @@ class ProjectController extends Controller
             ]);
         }
     }
+<<<<<<< HEAD
     // app/Http/Controllers/ProjectController.php
 
     public function searchProject(Request $request)
@@ -198,4 +199,6 @@ class ProjectController extends Controller
         return response()->json($projects);
     }
 
+=======
+>>>>>>> a92951c85166b29d30c5a8a10bd447091bda8c1b
 }

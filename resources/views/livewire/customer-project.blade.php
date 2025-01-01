@@ -1,15 +1,23 @@
 <div>
+<<<<<<< HEAD
     <!-- CUSTOMER SELECTION -->
     <div class="form-group">
         <label>CUSTOMER</label>
         <select wire:model="selectedCustomer" class="form-control">
             <option value="">- SELECT CUSTOMER -</option>
+=======
+    <div class="form-group">
+        <label>CUSTOMER</label>
+        <select wire:model="selectedCustomer" class="form-control">
+                <option value ="">- SELECT CUSTOMER -</option>
+>>>>>>> a92951c85166b29d30c5a8a10bd447091bda8c1b
             @foreach ($customers as $item)
                 <option value="{{ $item->id }}">{{ $item->name }}</option>
             @endforeach
         </select>
     </div>
 
+<<<<<<< HEAD
     <!-- Project Search akan disembunyikan hingga customer dipilih -->
     @if ($selectedCustomer)
         <!-- PROJECT SEARCH -->
@@ -25,6 +33,19 @@
     @endif
 
     @if (!is_null($projects))
+=======
+    @if (!is_null($projects))
+        <div class="form-group">
+                <label>SELECT PROJECT</label>
+                <select class="form-control" wire:model="selectedProject">
+                    <option value="">SELECT PROJECT</option>
+                    @foreach ($projects as $item)
+                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    @endforeach
+                </select>
+        </div>
+
+>>>>>>> a92951c85166b29d30c5a8a10bd447091bda8c1b
         @if (!is_null($customerProject))
             <div class="row">
                 <div class="col-6">
@@ -36,6 +57,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label>CONTRACT PERIOD</label>
+<<<<<<< HEAD
                         {{ $customerProject['contractperiod'] }} Bulan
                     </div>
                 </div>
@@ -90,3 +112,16 @@
         });
     });
 </script>
+=======
+                        {{ $customerProject['warrantyperiod'] }} Bulan
+                    </div>  
+                </div>
+            </div>
+        @endif
+
+        <hr>
+        
+    @endif
+
+</div>
+>>>>>>> a92951c85166b29d30c5a8a10bd447091bda8c1b
