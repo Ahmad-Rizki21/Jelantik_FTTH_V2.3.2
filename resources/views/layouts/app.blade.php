@@ -222,7 +222,7 @@
         });
         @endif
     </script>
-<<<<<<< HEAD
+
     <script>
         document.addEventListener('livewire:load', () => {
             Livewire.hook('message.processed', (message, component) => {
@@ -230,8 +230,7 @@
             });
         });
     </script>
-=======
->>>>>>> a92951c85166b29d30c5a8a10bd447091bda8c1b
+
 
     <livewire:scripts />
 </body>
