@@ -164,13 +164,29 @@
 
             <footer class="main-footer">
                 <div class="footer-left">
-                    Copyright &copy; 2024 <div class="bullet"></div> Ahmad Rizki <div class="bullet"></div> Tiketing System <div class="bullet"></div> All Rights
+                    Copyright &copy; 2025 <div class="bullet"></div> Ahmad Rizki <div class="bullet"></div> Tiketing System <div class="bullet"></div> All Rights
                     Reserved.
                 </div>
                 <div class="footer-right">
 
                 </div>
             </footer>
+                <style>
+                        .main-footer {
+                            font-size: 18px; /* Mengubah ukuran font */
+                            padding: 20px 0; /* Menambah jarak atas dan bawah footer */
+                            margin-left: 300px;
+                        }
+
+                        .footer-left {
+                            font-weight: bold; /* Mengubah font menjadi tebal */
+                        }
+
+                        .bullet {
+                            font-size: 22px; /* Menyesuaikan ukuran bullet */
+                            margin: 0 10px;
+                        }
+            </style>
         </div>
     </div>
 
