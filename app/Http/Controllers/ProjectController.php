@@ -5,28 +5,26 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\View\Factory;
 
 class ProjectController extends Controller
 {
-    /**
-     * __construct
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware(['permission:projects.index|projects.create|projects.edit|projects.delete']);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Factory|View
      */
     public function index()
     {
-        $projects = Project::latest()->when(request()->q, function($projecs) {
-            $projecs = $projecs->where('name', 'like', '%'. request()->q . '%');
+        $projects = Project::latest()->when(request()->q, function ($query) {
+            $query->where('name', 'like', '%' . request()->q . '%');
         })->paginate(10);
 
         $customer = new Customer();
@@ -37,7 +35,7 @@ class ProjectController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Factory|View
      */
     public function create()
     {
@@ -48,55 +46,23 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'id_pel' => 'required',
             'ip' => 'required',
             'customer_id' => 'required',
-            // 'deliverystart' => 'required',
-            // 'deliveryend' => 'required',
-            // 'installstart' => 'required',
-            // 'installend' => 'required',
-            // 'uatstart' => 'required',
-            // 'uatend' => 'required',
-            // 'billstart' => 'required',
-            // 'billdue' => 'required',
-            // 'warrantyperiod' => 'required',
-            // 'contractstart' => 'required',
-            // 'contractperiod' => 'required'
         ]);
 
-        $project = Project::create([
-            'name' => $request->name,
-            'id_pel' => $request->id_pel,
-            'ip' => $request->ip,
-            'customer_id' => $request->customer_id,
-            // 'deliverystart' => $request->deliverystart,
-            // 'deliveryend' => $request->deliveryend,
-            // 'installstart' => $request->installstart,
-            // 'installend' => $request->installend,
-            // 'uatstart' => $request->uatstart,
-            // 'uatend' => $request->uatend,
-            // 'billstart' => $request->billstart,
-            // 'billdue' => $request->billdue,
-            // 'warrantyperiod' => $request->warrantyperiod,
-            // 'contractstart' => $request->contractstart,
-            // 'contractperiod' =>$request->contractperiod,
-         ]);
+        $project = Project::create($request->only(['name', 'id_pel', 'ip', 'customer_id']));
 
-         $project->save();
-
-         if($project){
-            //redirect dengan pesan sukses
+        if ($project) {
             return redirect()->route('projects.index')->with(['success' => 'Project Berhasil Dibuat']);
-            
-        }else{
-        //     //redirect dengan pesan error
+        } else {
             return redirect()->route('projects.index')->with(['error' => 'Project Gagal Dibuat']);
         }
     }
@@ -104,19 +70,24 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Factory|View|RedirectResponse
      */
     public function show($id)
     {
-        //
+        $project = Project::find($id);
+        if ($project) {
+            return view('projects.show', compact('project'));
+        } else {
+            return redirect()->route('projects.index')->with(['error' => 'Project Tidak Ditemukan']);
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Factory|View
      */
     public function edit($id)
     {
@@ -128,13 +99,13 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return RedirectResponse
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'id_pel' => 'required',
             'ip' => 'required',
@@ -143,20 +114,11 @@ class ProjectController extends Controller
 
         $project = Project::findOrFail($id);
 
+        $project->update($request->only(['name', 'id_pel', 'ip', 'customer_id']));
 
-        $project->update([
-            'name' => $request->name,
-            'id_pel' => $request->id_pel,
-            'ip' => $request->ip,
-            'customer_id' => $request->customer_id,
-         ]);
-
-         if($project){
-            //redirect dengan pesan sukses
+        if ($project) {
             return redirect()->route('projects.index')->with(['success' => 'Project Berhasil Diubah']);
-            
-        }else{
-        //     //redirect dengan pesan error
+        } else {
             return redirect()->route('projects.index')->with(['error' => 'Project Gagal Diubah']);
         }
     }
@@ -164,37 +126,34 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $project = Project::findOrFail($id);
         $project->delete();
 
-        if($project){
-            return response()->json([
-                'status' => 'success'
-            ]);
-        }else{
-            return response()->json([
-                'status' => 'error'
-            ]);
-        }
+        return response()->json([
+            'status' => $project ? 'success' : 'error'
+        ]);
     }
 
+    /**
+     * Search for a project by name, ID-pel, or IP address.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function searchProject(Request $request)
     {
         $searchTerm = $request->input('search');
 
-        // Melakukan pencarian berdasarkan nama, ID-pel, atau IP address
         $projects = Project::where('name', 'LIKE', "%$searchTerm%")
-                        ->orWhere('id_pel', 'LIKE', "%$searchTerm%")
-                        ->orWhere('ip', 'LIKE', "%$searchTerm%")
-                        ->get();
+            ->orWhere('id_pel', 'LIKE', "%$searchTerm%")
+            ->orWhere('ip', 'LIKE', "%$searchTerm%")
+            ->get();
 
-        // Mengembalikan hasil pencarian sebagai JSON
         return response()->json($projects);
     }
-
 }
