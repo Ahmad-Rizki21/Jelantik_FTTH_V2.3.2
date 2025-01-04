@@ -150,6 +150,10 @@ class TicketController extends Controller
             $closedDate = new DateTime($ticket->closeddate);
             $ticket->closeddate = $closedDate->format('Y-m-d\TH:i');
         }
+        if($ticket->pendingdate) {
+            $pendingdate = new DateTime($ticket->pendingdate);
+            $ticket->pendingdate = $pendingdate->format('Y-m-d\TH:i');
+        }
         
         $slas = Sla::orderBy('name', 'asc')->get();
         $users = User::role('teknisi')->get();
@@ -189,13 +193,16 @@ class TicketController extends Controller
 
     public function update(Request $request, $id)
 {
+    // Validasi dasar
     $this->validate($request, [
         'updated_customer' => 'required',
         'sla_id' => 'required',
         'summary' => 'required',
         'detail' => 'required',
         'technician_id' => 'required',
-        'closeddate'=> 'required|date',
+        // Ubah validasi untuk pendingdate dan closeddate
+        'pendingdate' => 'required_if:status,Pending|nullable|date',
+        'closeddate' => 'required_if:status,Closed|nullable|date',
     ]);
 
     $ticket = Ticket::findOrFail($id);
@@ -203,9 +210,9 @@ class TicketController extends Controller
     // Simpan reporteddate yang lama
     $originalReportedDate = $ticket->reporteddate;
     
-    // Format closeddate menggunakan DateTime
-    $closedDate = new DateTime($request->closeddate);
-    $formattedClosedDate = $closedDate->format('Y-m-d H:i:s');
+    // Format tanggal hanya jika ada nilainya
+    $pendingDate = $request->pendingdate ? (new DateTime($request->pendingdate))->format('Y-m-d H:i:s') : null;
+    $closedDate = $request->closeddate ? (new DateTime($request->closeddate))->format('Y-m-d H:i:s') : null;
     
     $ticket->update([
         'sla_id' => $request->sla_id,
@@ -214,7 +221,8 @@ class TicketController extends Controller
         'problemdetail' => $request->detail,
         'assignee' => $request->technician_id,
         'resolution' => $request->resolution,
-        'closeddate' => $formattedClosedDate,
+        'pendingdate' => $pendingDate,
+        'closeddate' => $closedDate,
         'status' => $request->status
     ]);
     

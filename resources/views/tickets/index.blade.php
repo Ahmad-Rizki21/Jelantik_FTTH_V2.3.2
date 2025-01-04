@@ -44,6 +44,7 @@
                                     <!-- <th scope="col">ID-PELANGGAN</th> -->
                                     <th scope="col">REPORTED</th>
                                     <th scope="col">PROBLEM</th>
+                                    <th scope="col">PENDING DATE</th>
                                     <th scope="col">CLOSED DATE</th>
                                     <th scope="col">STATUS</th>
                                     <th scope="col" style="width: 15%;text-align: center">AKSI</th>
@@ -61,6 +62,9 @@
                                     </td> -->
                                     <td>{{ date('d M Y - H:i', strtotime($ticket->reporteddate)) }}</td>
                                     <td>{{ $ticket->problemsummary }}</td>
+                                    <td>
+                                        {{ $ticket->pendingdate ? date('d M Y - H:i', strtotime($ticket->pendingdate)) : 'Tidak Ada Pending' }}
+                                    </td>
                                     <td>
                                         {{ $ticket->closeddate ? date('d M Y - H:i', strtotime($ticket->closeddate)) : 'Belum Ditutup' }}
                                     </td>

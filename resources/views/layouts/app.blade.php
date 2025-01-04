@@ -22,6 +22,11 @@
     <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @stack('scripts')  <!-- Tambahkan ini -->
+    <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  <!-- Tambahkan ini -->
+
     <livewire:styles />
 
 </head>

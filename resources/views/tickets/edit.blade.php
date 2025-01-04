@@ -130,14 +130,28 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label>PENDING DATE</label>
+                                    <input type="datetime-local" 
+                                        name="pendingdate" 
+                                        class="form-control @error('pendingdate') is-invalid @enderror" 
+                                        value="{{ old('pendingdate', $ticket->pendingdate ?? '') }}">
+                                    @error('pendingdate')
+                                        <div class="invalid-feedback" style="display: block">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
                                     <label>CLOSED DATE</label>
                                     <input type="datetime-local" 
-    name="closeddate" 
-    class="form-control" 
-    value="{{ old('closeddate', $ticket->closeddate ?? '') }}">                                    @error('closeddate')
-                                    <div class="invalid-feedback" style="display: block">
-                                        {{ $message }}
-                                    </div>
+                                        name="closeddate" 
+                                        class="form-control @error('closeddate') is-invalid @enderror" 
+                                        value="{{ old('closeddate', $ticket->closeddate ?? '') }}">
+                                    @error('closeddate')
+                                        <div class="invalid-feedback" style="display: block">
+                                            {{ $message }}
+                                        </div>
                                     @enderror
                                 </div>
 
@@ -172,5 +186,45 @@
     window.addEventListener('customer-updated', event => {
         document.getElementById('updated_customer').value = event.detail.selectedCustomer;
     })
+</script>
+
+<script>
+    // Tambahkan setelah script yang sudah ada
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusSelect = document.getElementById('status');
+        const pendingDateInput = document.querySelector('input[name="pendingdate"]');
+        const closedDateInput = document.querySelector('input[name="closeddate"]');
+
+        function updateDateFields() {
+            const status = statusSelect.value;
+            
+            // Reset required attribute
+            pendingDateInput.removeAttribute('required');
+            closedDateInput.removeAttribute('required');
+            
+            // Reset values when status changes
+            if (status === 'Open') {
+                pendingDateInput.value = '';
+                closedDateInput.value = '';
+            }
+            
+            // Set required based on status
+            if (status === 'Pending') {
+                pendingDateInput.setAttribute('required', 'required');
+                closedDateInput.value = '';
+            }
+            
+            if (status === 'Closed') {
+                closedDateInput.setAttribute('required', 'required');
+                pendingDateInput.value = '';
+            }
+        }
+
+        // Initial setup
+        updateDateFields();
+        
+        // Add event listener for status changes
+        statusSelect.addEventListener('change', updateDateFields);
+    });
 </script>
 

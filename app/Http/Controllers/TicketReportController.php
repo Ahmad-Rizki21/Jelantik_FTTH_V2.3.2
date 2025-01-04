@@ -23,7 +23,9 @@ class TicketReportController extends Controller
             'D1' => 'Reported Date',
             'E1' => 'Problem Summary',
             'F1' => 'Closed Date',
-            'G1' => 'Status'
+            'G1' => 'Pending Date',
+            'H1' => 'Status'
+        
         ];
 
         // Menerapkan header
@@ -55,7 +57,8 @@ class TicketReportController extends Controller
             $sheet->setCellValue('D' . $row, $ticket->reporteddate ? date('Y-m-d H:i:s', strtotime($ticket->reporteddate)) : 'N/A');
             $sheet->setCellValue('E' . $row, $ticket->problemsummary);
             $sheet->setCellValue('F' . $row, $ticket->closeddate ? date('Y-m-d H:i:s', strtotime($ticket->closeddate)) : 'N/A');
-            $sheet->setCellValue('G' . $row, $ticket->status);
+            $sheet->setCellValue('G' . $row, $ticket->pendingdate ? date('Y-m-d H:i:s', strtotime($ticket->pendingdate)) : 'N/A');
+            $sheet->setCellValue('H' . $row, $ticket->status);
             
             $row++;
         }
