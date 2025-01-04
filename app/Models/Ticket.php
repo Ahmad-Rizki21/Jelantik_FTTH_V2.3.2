@@ -7,57 +7,43 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
+    use HasFactory;  // Trait HasFactory dipindah ke atas
 
+    protected $guarded = [];
 
-   
-
-    // Mendefinisikan relasi belongsTo dengan Project
+    // Relasi dengan Project
     public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
-
-
-    // Menambahkan relasi reportedby
+    // Relasi dengan User untuk reportedby
     public function reportedby()
     {
         return $this->belongsTo(User::class, 'reportedby');
     }
 
-    use HasFactory;
-
-    protected $guarded = [];
-
+    // Relasi dengan SLA
     public function sla()
     {
         return $this->belongsTo(Sla::class);
     }
 
+    // Relasi dengan Log_email
     public function emails()
     {
         return $this->hasMany(Log_email::class);
     }
 
+    // Relasi dengan User
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    // Relasi dengan Customer
     public function customer()
     {
         return $this->belongsTo(Customer::class);
     }
-    
-
-    // public function getDoneAttribute()
-    // {
-    //     return $this->tasks()->where('status', 'closed')->count();
-    // }
-
-    // public function tasks()
-    // {
-    //     return $this->hasMany(Task::class);
-    // }
-
 }

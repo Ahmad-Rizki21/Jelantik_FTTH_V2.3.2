@@ -1,7 +1,5 @@
 <?php
 
-// app/Http/Controllers/TicketReportController.php
-
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
@@ -15,43 +13,65 @@ class TicketReportController extends Controller
     {
         // Membuat instance baru dari spreadsheet
         $spreadsheet = new Spreadsheet();
-
-        // Mengambil aktif sheet
         $sheet = $spreadsheet->getActiveSheet();
 
-        // Memberikan nama kolom (header)
-        $sheet->setCellValue('A1', 'Ticket Number');
-        $sheet->setCellValue('B1', 'Name');
-        $sheet->setCellValue('C1', 'id_pel');
-        $sheet->setCellValue('D1', 'IP');
-        $sheet->setCellValue('E1', 'Customer');
-        $sheet->setCellValue('F1', 'Reported Date');
-        $sheet->setCellValue('G1', 'Problem Summary');
-        $sheet->setCellValue('H1', 'Status');
+        // Mengatur header sesuai kebutuhan
+        $headers = [
+            'A1' => 'Ticket Number',
+            'B1' => 'Project',
+            'C1' => 'Customer',
+            'D1' => 'Reported Date',
+            'E1' => 'Problem Summary',
+            'F1' => 'Closed Date',
+            'G1' => 'Status'
+        ];
 
-        // Mengambil data tiket
-        $tickets = Ticket::with('customer', 'reportedby') // Memuat relasi customer dan reportedby
-                         ->get();
+        // Menerapkan header
+        foreach ($headers as $cell => $value) {
+            $sheet->setCellValue($cell, $value);
+            // Memberikan style bold pada header
+            $sheet->getStyle($cell)->getFont()->setBold(true);
+        }
+
+        // Mengambil data tiket dengan relasi yang dibutuhkan
+        $tickets = Ticket::with(['project', 'customer'])
+                        ->orderBy('number')
+                        ->get();
 
         // Menyusun data tiket dalam Excel
         $row = 2; // Dimulai dari baris kedua setelah header
         foreach ($tickets as $ticket) {
-            $sheet->setCellValue('A' . $row, $ticket->number); // Ticket Number
-            $sheet->setCellValue('B' . $row, optional($ticket->reportedby)->project ); // Name
-            $sheet->setCellValue('C' . $row, $ticket->reportedby); // id_pel
-            $sheet->setCellValue('D' . $row, $ticket->ip); // IP (pastikan tiket menyimpan IP address)
-            $sheet->setCellValue('E' . $row, $ticket->customer->name); // Customer Name (relasi)
-            $sheet->setCellValue('F' . $row, $ticket->reporteddate); // Reported Date
-            $sheet->setCellValue('G' . $row, $ticket->problemsummary); // Problem Summary
-            $sheet->setCellValue('H' . $row, $ticket->status); // Status
+            // Mengambil data project (yang berisi name, id_pel, dan ip)
+            $projectInfo = $ticket->project ? 
+                          sprintf("%s | %s | %s", 
+                              $ticket->project->name ?? 'N/A',
+                              $ticket->project->id_pel ?? 'N/A',
+                              $ticket->project->ip ?? 'N/A'
+                          ) : 'N/A';
+
+            $sheet->setCellValue('A' . $row, $ticket->number);
+            $sheet->setCellValue('B' . $row, $projectInfo);
+            $sheet->setCellValue('C' . $row, $ticket->customer->name ?? 'N/A');
+            $sheet->setCellValue('D' . $row, $ticket->reporteddate ? date('Y-m-d H:i:s', strtotime($ticket->reporteddate)) : 'N/A');
+            $sheet->setCellValue('E' . $row, $ticket->problemsummary);
+            $sheet->setCellValue('F' . $row, $ticket->closeddate ? date('Y-m-d H:i:s', strtotime($ticket->closeddate)) : 'N/A');
+            $sheet->setCellValue('G' . $row, $ticket->status);
+            
             $row++;
         }
 
-        // Membuat writer dan menyimpannya ke dalam file Excel
+        // Auto-size columns untuk membuat lebar kolom menyesuaikan konten
+        foreach (range('A', 'G') as $column) {
+            $sheet->getColumnDimension($column)->setAutoSize(true);
+        }
+
+        // Membuat writer untuk format XLSX
         $writer = new Xlsx($spreadsheet);
 
-        // Menyimpan file Excel ke dalam response
-        $fileName = 'ticket-report-' . now()->format('Y-m-d') . '.xlsx';
+        // Menyiapkan nama file dengan timestamp
+        $fileName = 'ticket-report-' . date('Y-m-d-His') . '.xlsx';
+
+        // Mengirim file sebagai response
         return response()->stream(
             function() use ($writer) {
                 $writer->save('php://output');
@@ -64,10 +84,3 @@ class TicketReportController extends Controller
         );
     }
 }
-
-
-
-
-
-
-?>

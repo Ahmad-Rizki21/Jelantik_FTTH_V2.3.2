@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use App\Models\Sla;
 use App\Models\User;
 use App\Models\Ticket;
@@ -18,6 +19,9 @@ class TicketController extends Controller
     {
         $this->middleware(['permission:tickets.index|tickets.create|tickets.edit|tickets.delete']);
     }
+    
+    
+    
 
     /**
      * Display a listing of the resource.
@@ -26,15 +30,31 @@ class TicketController extends Controller
      */
     public function index()
     {
+        
+        // $tickets = Auth::user()->hasRole('Teknisi')
+        //     ? Ticket::where('assignee', Auth::id())->latest()->when(request()->q, function ($tickets) {
+        //         $tickets->where('problemsummary', 'like', '%' . request()->q . '%');
+        //     })->paginate(5)
+        //     : Ticket::latest()->when(request()->q, function ($tickets) {
+        //         $tickets->where('problemsummary', 'like', '%' . request()->q . '%');
+        //     })->paginate(5);
+
         $tickets = Auth::user()->hasRole('Teknisi')
-            ? Ticket::where('assignee', Auth::id())->latest()->when(request()->q, function ($tickets) {
+        ? Ticket::with('project', 'sla', 'customer') // Memuat relasi project, sla, dan customer
+            ->where('assignee', Auth::id())
+            ->latest()
+            ->when(request()->q, function ($tickets) {
                 $tickets->where('problemsummary', 'like', '%' . request()->q . '%');
             })->paginate(5)
-            : Ticket::latest()->when(request()->q, function ($tickets) {
+        : Ticket::with('project', 'sla', 'customer') // Memuat relasi project, sla, dan customer
+            ->latest()
+            ->when(request()->q, function ($tickets) {
                 $tickets->where('problemsummary', 'like', '%' . request()->q . '%');
             })->paginate(5);
 
-        return view('tickets.index', compact('tickets'));
+    return view('tickets.index', compact('tickets'));
+
+        // return view('tickets.index', compact('tickets'));
     }
 
     /**
@@ -108,15 +128,34 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
+    // public function edit($id)
+    // {
+    //     $ticket = Ticket::findOrFail($id);
+    //     $slas = Sla::orderBy('name', 'asc')->get();
+    //     $users = User::role('teknisi')->get();
+    //     $customer = Customer::all();
+    //     return view('tickets.edit', compact('ticket', 'slas', 'users', 'customer'));
+    // }
+
     public function edit($id)
     {
         $ticket = Ticket::findOrFail($id);
+        
+        // Format tanggal menggunakan DateTime
+        if($ticket->reporteddate) {
+            $reportedDate = new DateTime($ticket->reporteddate);
+            $ticket->reporteddate = $reportedDate->format('Y-m-d\TH:i');
+        }
+        if($ticket->closeddate) {
+            $closedDate = new DateTime($ticket->closeddate);
+            $ticket->closeddate = $closedDate->format('Y-m-d\TH:i');
+        }
+        
         $slas = Sla::orderBy('name', 'asc')->get();
         $users = User::role('teknisi')->get();
         $customer = Customer::all();
         return view('tickets.edit', compact('ticket', 'slas', 'users', 'customer'));
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -124,28 +163,71 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
+    // public function update(Request $request, $id)
+    // {
+    //     $this->validate($request, [
+    //         'updated_customer' => 'required',
+    //         'reporteddate' => 'required|date',
+    //         'sla_id' => 'required',
+    //         'summary' => 'required',
+    //         'detail' => 'required',
+    //         'technician_id' => 'required',
+    //         'closeddate'=> 'required|date',
+    //     ]);
+
+    //     $ticket = Ticket::findOrFail($id);
+    //     $ticket->update($request->only([
+    //         'sla_id', 'customer_id', 'reporteddate', 'problemsummary', 'problemdetail', 'assignee', 'resolution', 'closeddate', 'status'
+    //     ]));
+
+    //     if ($ticket) {
+    //         event(new ProvidersLogActivity(Auth::user(), 'Memperbaharui Tiket No ' . $ticket->number));
+    //         return redirect()->route('tickets.index')->with(['success' => 'Tiket Berhasil Diupdate!']);
+    //     }
+    //     return redirect()->route('tickets.index')->with(['error' => 'Tiket Gagal Diupdate!']);
+    // }
+
     public function update(Request $request, $id)
-    {
-        $this->validate($request, [
-            'updated_customer' => 'required',
-            'reporteddate' => 'required|date',
-            'sla_id' => 'required',
-            'summary' => 'required',
-            'detail' => 'required',
-            'technician_id' => 'required',
-        ]);
+{
+    $this->validate($request, [
+        'updated_customer' => 'required',
+        'sla_id' => 'required',
+        'summary' => 'required',
+        'detail' => 'required',
+        'technician_id' => 'required',
+        'closeddate'=> 'required|date',
+    ]);
 
-        $ticket = Ticket::findOrFail($id);
-        $ticket->update($request->only([
-            'sla_id', 'customer_id', 'reporteddate', 'problemsummary', 'problemdetail', 'assignee', 'resolution', 'status'
-        ]));
+    $ticket = Ticket::findOrFail($id);
+    
+    // Simpan reporteddate yang lama
+    $originalReportedDate = $ticket->reporteddate;
+    
+    // Format closeddate menggunakan DateTime
+    $closedDate = new DateTime($request->closeddate);
+    $formattedClosedDate = $closedDate->format('Y-m-d H:i:s');
+    
+    $ticket->update([
+        'sla_id' => $request->sla_id,
+        'customer_id' => $request->updated_customer,
+        'problemsummary' => $request->summary,
+        'problemdetail' => $request->detail,
+        'assignee' => $request->technician_id,
+        'resolution' => $request->resolution,
+        'closeddate' => $formattedClosedDate,
+        'status' => $request->status
+    ]);
+    
+    // Kembalikan reporteddate ke nilai aslinya
+    $ticket->reporteddate = $originalReportedDate;
+    $ticket->save();
 
-        if ($ticket) {
-            event(new ProvidersLogActivity(Auth::user(), 'Memperbaharui Tiket No ' . $ticket->number));
-            return redirect()->route('tickets.index')->with(['success' => 'Tiket Berhasil Diupdate!']);
-        }
-        return redirect()->route('tickets.index')->with(['error' => 'Tiket Gagal Diupdate!']);
+    if ($ticket) {
+        event(new ProvidersLogActivity(Auth::user(), 'Memperbaharui Tiket No ' . $ticket->number));
+        return redirect()->route('tickets.index')->with(['success' => 'Tiket Berhasil Diupdate!']);
     }
+    return redirect()->route('tickets.index')->with(['error' => 'Tiket Gagal Diupdate!']);
+}
 
     /**
      * Remove the specified resource from storage.
@@ -162,5 +244,18 @@ class TicketController extends Controller
             return response()->json(['status' => 'success']);
         }
         return response()->json(['status' => 'error']);
+    }
+    public function closeTicket(Ticket $ticket)
+    {
+        try {
+            $ticket->update([
+                'status' => 'closed',
+                'closeddate' => now()
+            ]);
+
+            return redirect()->back()->with('success', 'Ticket berhasil ditutup');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menutup ticket: ' . $e->getMessage());
+        }
     }
 }

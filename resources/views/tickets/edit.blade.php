@@ -19,25 +19,23 @@
                         @method('PUT')
 
                         <div class="form-group">
-                            @hasanyrole('Admin|Helpdesk')
+    @hasanyrole('Admin|Helpdesk')
+        <label>CUSTOMER</label>
+        <input type="text" name="customer" value="{{ old('customer', $ticket->customer ? $ticket->customer->name : '') }}" class="form-control">
+        @error('customer_id')
+            <div class="invalid-feedback" style="display: block">{{ $message }}</div>
+        @enderror
+    @endhasanyrole
 
-                            <label>CUSTOMER</label>
-                            <input type="text" name="customer" value="{{ old('customer', $ticket->customer ? $ticket->customer->name : '') }}" class="form-control">
-                            @error('customer_id')
-                                    <div class="invalid-feedback" style="display: block">{{ $message }}</div>
-                                @enderror
-                            @endhasanyrole
+    <input type="hidden" name="updated_customer" id="updated_customer" value="{{ $ticket->customer_id }}">
 
-                            <input type="hidden" name="updated_customer" id="updated_customer" value="{{ $ticket->customer_id }}">
-
-                            <br>
-
-                            @hasrole('Teknisi')
-                                <div class="form-group">
-                                    <label>CUSTOMER</label>
-                                    <input type="text" name="customer" value="{{ old('customer', $customer->find($ticket->customer_id)->first()->value('name')) }}" class="form-control" readonly>
-                                </div>
-                            @endhasrole
+    @hasrole('Teknisi')
+        <div class="form-group">
+            <label>CUSTOMER</label>
+            <input type="text" name="customer" value="{{ old('customer', $customer->find($ticket->customer_id)->first()->value('name')) }}" class="form-control" readonly>
+        </div>
+    @endhasrole
+</div>
 
                             <div class="form-group">
                                 <label>TICKET NO</label>
@@ -46,7 +44,11 @@
 
                             <div class="form-group">
                                 <label>REPORTED DATE</label>
-                                <input type="date" name="reporteddate" value="{{ old('reporteddate', Carbon\Carbon::parse($ticket->reporteddate)->format('Y-m-d')) }}" class="form-control @error('reporteddate') is-invalid @enderror" @hasrole('Teknisi') readonly @endhasrole>
+                                <input type="datetime-local" 
+                                    name="reporteddate" 
+                                    class="form-control" 
+                                    value="{{ old('reporteddate', $ticket->reporteddate ?? '') }}" 
+                                    readonly>
                                 @error('reporteddate')
                                     <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                                 @enderror
@@ -128,6 +130,18 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label>CLOSED DATE</label>
+                                    <input type="datetime-local" 
+    name="closeddate" 
+    class="form-control" 
+    value="{{ old('closeddate', $ticket->closeddate ?? '') }}">                                    @error('closeddate')
+                                    <div class="invalid-feedback" style="display: block">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
                                     <label>CHANGE STATUS</label>
                                     <select name="status" id="status" class="form-control select-status @error('status') is-invalid @enderror">
                                         <option value="">-- Ganti Status --</option>
@@ -159,3 +173,4 @@
         document.getElementById('updated_customer').value = event.detail.selectedCustomer;
     })
 </script>
+

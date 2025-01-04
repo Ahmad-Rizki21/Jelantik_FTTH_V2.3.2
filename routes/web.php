@@ -91,8 +91,6 @@ Route::group(['middleware' => 'auth'], function() {
     // routes/web.php
 Route::get('/search-project', [ProjectController::class, 'searchProject']);
 
-Route::get('/tickets/{id}/edit', [TicketController::class, 'edit'])->name('tickets.edit');
-
 
 
 
