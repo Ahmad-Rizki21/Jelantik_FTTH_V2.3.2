@@ -65,11 +65,12 @@
             </nav>
             <div class="main-sidebar sidebar-style-2">
                 <aside id="sidebar-wrapper">
-                    <div class="sidebar-brand">
-                        <a href="index.html">TICKETING SYSTEM</a>
-                    </div>
-                    <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="index.html">TST</a>
+                <div class="sidebar-brand d-flex align-items-center">
+                        <img src="{{ asset('assets/img/Artacom1_transparent_Craiyon.png') }}" alt="Logo" class="mr-2px" style="width: 40px; height: 40px;">
+                        <a href="{{ route('dashboard') }}" class="text-decoration-none">TICKETING SYSTEM</a>
+                        </div>
+                        <div class="sidebar-brand sidebar-brand-sm">
+                        <a href="{{ route('dashboard') }}">TST</a>
                     </div>
                     <ul class="sidebar-menu">
                         <li class="menu-header">MAIN MENU</li>
@@ -201,6 +202,8 @@
     <script src="{{ asset('assets/modules/nicescroll/jquery.nicescroll.min.js') }}"></script>
     <script src="{{ asset('assets/js/stisla.js') }}"></script>
     {{-- <script src="{{ asset('assets/modules/select2/dist/js/select2.full.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
+
 
     <!-- JS Libraies -->
 
@@ -254,5 +257,13 @@
 
 
     <livewire:scripts />
+
+    <script>
+    $(document).ready(function() {
+        $('.sidebar-toggle').on('click', function() {
+            $('#sidebar-wrapper').toggleClass('active');
+        });
+    });
+</script>
 </body>
 </html>
