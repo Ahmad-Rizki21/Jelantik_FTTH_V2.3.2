@@ -7,6 +7,25 @@
             <h1>Ticket</h1>
         </div>
 
+        <style>
+            body {
+                overflow-x: hidden;
+                /* Menonaktifkan scroll horizontal */
+            }
+
+            .section-body {
+                width: 100%;
+                /* Pastikan elemen ini tidak lebih lebar dari layar */
+                overflow-x: hidden;
+                /* Menyembunyikan scroll horizontal pada elemen ini */
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+                /* Memastikan tabel bisa di-scroll horizontal tanpa menyebabkan scroll global */
+            }
+        </style>
+
         <div class="section-body">
             <div class="card">
                 <div class="card-header">
@@ -48,8 +67,8 @@
                                     <!-- <th scope="col">ID-PELANGGAN</th> -->
                                     <th scope="col">REPORTED</th>
                                     <th scope="col">PROBLEM</th>
-                                    <th scope="col">PENDING DATE</th>
-                                    <th scope="col">CLOSED DATE</th>
+                                    <th scope="col">PENDING</th>
+                                    <th scope="col">CLOSED</th>
                                     <th scope="col">STATUS</th>
                                     <th scope="col" style="width: 15%;text-align: center">AKSI</th>
                                 </tr>
@@ -68,10 +87,14 @@
                                         <td>{{ $ticket->sla->name }}</td>
                                         <td>{{ $ticket->customer->name }}</td>
                                         <!-- <td>
-                                                                                                                {{ $ticket->project ? $ticket->project->id_pel : 'Tidak ada' }}
-                                                                                                            </td> -->
+                                                {{ $ticket->project ? $ticket->project->id_pel : 'Tidak ada' }}
+                                            </td> -->
                                         <td>{{ date('d M Y - H:i', strtotime($ticket->reporteddate)) }}</td>
-                                        <td>{{ $ticket->problemsummary }}</td>
+
+                                        <td>{{ $ticket->problem ? $ticket->problem->name : 'N/A' }}</td>
+                                        <!-- Menampilkan nama problem -->
+
+
                                         <td>
                                             {{ $ticket->pendingdate ? date('d M Y - H:i', strtotime($ticket->pendingdate)) : 'Tidak Ada Pending' }}
                                         </td>

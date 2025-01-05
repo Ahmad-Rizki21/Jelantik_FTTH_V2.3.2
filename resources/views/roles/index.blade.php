@@ -7,6 +7,25 @@
             <h1>Roles</h1>
         </div>
 
+        <style>
+            body {
+                overflow-x: hidden;
+                /* Menonaktifkan scroll horizontal */
+            }
+
+            .section-body {
+                width: 100%;
+                /* Pastikan elemen ini tidak lebih lebar dari layar */
+                overflow-x: hidden;
+                /* Menyembunyikan scroll horizontal pada elemen ini */
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+                /* Memastikan tabel bisa di-scroll horizontal tanpa menyebabkan scroll global */
+            }
+        </style>
+
         <div class="section-body">
 
             <div class="card">
@@ -20,11 +39,12 @@
                             <div class="input-group mb-3">
                                 @can('roles.create')
                                     <div class="input-group-prepend">
-                                        <a href="{{ route('roles.create') }}" class="btn btn-primary" style="padding-top: 10px;"><i class="fa fa-plus-circle"></i> TAMBAH</a>
+                                        <a href="{{ route('roles.create') }}" class="btn btn-primary"
+                                            style="padding-top: 10px;"><i class="fa fa-plus-circle"></i> TAMBAH</a>
                                     </div>
                                 @endcan
                                 <input type="text" class="form-control" name="q"
-                                       placeholder="cari berdasarkan nama role">
+                                    placeholder="cari berdasarkan nama role">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> CARI
                                     </button>
@@ -35,38 +55,41 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
-                            <tr>
-                                <th scope="col" style="text-align: center;width: 6%">NO.</th>
-                                <th scope="col" style="width: 15%">NAMA ROLE</th>
-                                <th scope="col">PERMISSIONS</th>
-                                <th scope="col" style="width: 15%;text-align: center">AKSI</th>
-                            </tr>
+                                <tr>
+                                    <th scope="col" style="text-align: center;width: 6%">NO.</th>
+                                    <th scope="col" style="width: 15%">NAMA ROLE</th>
+                                    <th scope="col">PERMISSIONS</th>
+                                    <th scope="col" style="width: 15%;text-align: center">AKSI</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach ($roles as $no => $role)
-                                <tr>
-                                    <th scope="row" style="text-align: center">{{ ++$no + ($roles->currentPage()-1) * $roles->perPage() }}</th>
-                                    <td>{{ $role->name }}</td>
-                                    <td>
-                                        @foreach($role->getPermissionNames() as $permission)
-                                            <button class="btn btn-sm btn-success mb-1 mt-1 mr-1">{{ $permission }}</button>
-                                        @endforeach
-                                    </td>
-                                    <td class="text-center">
-                                        @can('roles.edit')
-                                            <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-sm btn-primary">
-                                                <i class="fa fa-pencil-alt"></i>
-                                            </a>
-                                        @endcan
-                                        
-                                        @can('roles.delete')
-                                            <button onClick="Delete(this.id)" class="btn btn-sm btn-danger" id="{{ $role->id }}">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        @endcan
-                                    </td>
-                                </tr>
-                            @endforeach
+                                @foreach ($roles as $no => $role)
+                                    <tr>
+                                        <th scope="row" style="text-align: center">
+                                            {{ ++$no + ($roles->currentPage() - 1) * $roles->perPage() }}
+                                        </th>
+                                        <td>{{ $role->name }}</td>
+                                        <td>
+                                            @foreach($role->getPermissionNames() as $permission)
+                                                <button class="btn btn-sm btn-success mb-1 mt-1 mr-1">{{ $permission }}</button>
+                                            @endforeach
+                                        </td>
+                                        <td class="text-center">
+                                            @can('roles.edit')
+                                                <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-sm btn-primary">
+                                                    <i class="fa fa-pencil-alt"></i>
+                                                </a>
+                                            @endcan
+
+                                            @can('roles.delete')
+                                                <button onClick="Delete(this.id)" class="btn btn-sm btn-danger"
+                                                    id="{{ $role->id }}">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         <div style="text-align: center">
@@ -82,64 +105,63 @@
 
 <script>
     //ajax delete
-    function Delete(id)
-        {
-            var id = id;
-            var token = $("meta[name='csrf-token']").attr("content");
+    function Delete(id) {
+        var id = id;
+        var token = $("meta[name='csrf-token']").attr("content");
 
-            swal({
-                title: "APAKAH KAMU YAKIN ?",
-                text: "INGIN MENGHAPUS DATA INI!",
-                icon: "warning",
-                buttons: [
-                    'TIDAK',
-                    'YA'
-                ],
-                dangerMode: true,
-            }).then(function(isConfirm) {
-                if (isConfirm) {
+        swal({
+            title: "APAKAH KAMU YAKIN ?",
+            text: "INGIN MENGHAPUS DATA INI!",
+            icon: "warning",
+            buttons: [
+                'TIDAK',
+                'YA'
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
 
-                    //ajax delete
-                    jQuery.ajax({
-                        url: "{{ route("roles.index") }}/"+id,
-                        data:     {
-                            "id": id,
-                            "_token": token
-                        },
-                        type: 'DELETE',
-                        success: function (response) {
-                            if (response.status == "success") {
-                                swal({
-                                    title: 'BERHASIL!',
-                                    text: 'DATA BERHASIL DIHAPUS!',
-                                    icon: 'success',
-                                    timer: 1000,
-                                    showConfirmButton: false,
-                                    showCancelButton: false,
-                                    buttons: false,
-                                }).then(function() {
-                                    location.reload();
-                                });
-                            }else{
-                                swal({
-                                    title: 'GAGAL!',
-                                    text: 'DATA GAGAL DIHAPUS!',
-                                    icon: 'error',
-                                    timer: 1000,
-                                    showConfirmButton: false,
-                                    showCancelButton: false,
-                                    buttons: false,
-                                }).then(function() {
-                                    location.reload();
-                                });
-                            }
+                //ajax delete
+                jQuery.ajax({
+                    url: "{{ route("roles.index") }}/" + id,
+                    data: {
+                        "id": id,
+                        "_token": token
+                    },
+                    type: 'DELETE',
+                    success: function (response) {
+                        if (response.status == "success") {
+                            swal({
+                                title: 'BERHASIL!',
+                                text: 'DATA BERHASIL DIHAPUS!',
+                                icon: 'success',
+                                timer: 1000,
+                                showConfirmButton: false,
+                                showCancelButton: false,
+                                buttons: false,
+                            }).then(function () {
+                                location.reload();
+                            });
+                        } else {
+                            swal({
+                                title: 'GAGAL!',
+                                text: 'DATA GAGAL DIHAPUS!',
+                                icon: 'error',
+                                timer: 1000,
+                                showConfirmButton: false,
+                                showCancelButton: false,
+                                buttons: false,
+                            }).then(function () {
+                                location.reload();
+                            });
                         }
-                    });
+                    }
+                });
 
-                } else {
-                    return true;
-                }
-            })
-        }
+            } else {
+                return true;
+            }
+        })
+    }
 </script>
 @stop

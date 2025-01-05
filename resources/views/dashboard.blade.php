@@ -7,6 +7,25 @@
             <h1>Dashboard FTTH Ticketing System</h1>
         </div>
 
+        <style>
+            body {
+                overflow-x: hidden;
+                /* Menonaktifkan scroll horizontal */
+            }
+
+            .section-body {
+                width: 100%;
+                /* Pastikan elemen ini tidak lebih lebar dari layar */
+                overflow-x: hidden;
+                /* Menyembunyikan scroll horizontal pada elemen ini */
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+                /* Memastikan tabel bisa di-scroll horizontal tanpa menyebabkan scroll global */
+            }
+        </style>
+
         <div class="section-body">
             <div class="container">
 

@@ -1,72 +1,97 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="main-content">
-        <section class="section">
-            <div class="section-header">
-                <h1>Tambah Pelanggan</h1>
-            </div>
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>Tambah Pelanggan</h1>
+        </div>
 
-            <div class="section-body">
+        <style>
+            body {
+                overflow-x: hidden;
+                /* Menonaktifkan scroll horizontal */
+            }
 
-                <div class="card">
-                    <div class="card-header">
-                        <h4><i class="fas fa-bell"></i> Tambah pelanggan</h4>
-                    </div>
+            .section-body {
+                width: 100%;
+                /* Pastikan elemen ini tidak lebih lebar dari layar */
+                overflow-x: hidden;
+                /* Menyembunyikan scroll horizontal pada elemen ini */
+            }
 
-                    <div class="card-body">
-                        <form action="{{ route('projects.store') }}" method="POST">
-                            @csrf
+            .table-responsive {
+                overflow-x: auto;
+                /* Memastikan tabel bisa di-scroll horizontal tanpa menyebabkan scroll global */
+            }
+        </style>
 
-                            <div class="form-group">
-                                <label>NAMA PELANGGAN</label>
-                                <input type="text" name="name" value="{{ old('name') }}" placeholder="Masukkan Judul project" class="form-control @error('name') is-invalid @enderror">
+        <div class="section-body">
 
-                                @error('name')
+            <div class="card">
+                <div class="card-header">
+                    <h4><i class="fas fa-bell"></i> Tambah pelanggan</h4>
+                </div>
+
+                <div class="card-body">
+                    <form action="{{ route('projects.store') }}" method="POST">
+                        @csrf
+
+                        <div class="form-group">
+                            <label>NAMA PELANGGAN</label>
+                            <input type="text" name="name" value="{{ old('name') }}"
+                                placeholder="Masukkan Judul project"
+                                class="form-control @error('name') is-invalid @enderror">
+
+                            @error('name')
                                 <div class="invalid-feedback" style="display: block">
                                     {{ $message }}
                                 </div>
-                                @enderror
-                            </div>
+                            @enderror
+                        </div>
 
-                            <div class="form-group">
-                                <label>ID PELANGGAN</label>
-                                <input type="text" name="id_pel" value="{{ old('id_pel') }}" placeholder="Masukkan ID Pelanggan Baru" class="form-control @error('id_pel') is-invalid @enderror">
+                        <div class="form-group">
+                            <label>ID PELANGGAN</label>
+                            <input type="text" name="id_pel" value="{{ old('id_pel') }}"
+                                placeholder="Masukkan ID Pelanggan Baru"
+                                class="form-control @error('id_pel') is-invalid @enderror">
 
-                                @error('name')
+                            @error('name')
                                 <div class="invalid-feedback" style="display: block">
                                     {{ $message }}
                                 </div>
-                                @enderror
-                            </div>
+                            @enderror
+                        </div>
 
-                            <div class="form-group">
-                                <label>IP ADDRESS</label>
-                                <input type="text" name="ip" value="{{ old('ip') }}" placeholder="Masukkan IP Address" class="form-control @error('ip') is-invalid @enderror">
+                        <div class="form-group">
+                            <label>IP ADDRESS</label>
+                            <input type="text" name="ip" value="{{ old('ip') }}" placeholder="Masukkan IP Address"
+                                class="form-control @error('ip') is-invalid @enderror">
 
-                                @error('name')
+                            @error('name')
                                 <div class="invalid-feedback" style="display: block">
                                     {{ $message }}
                                 </div>
-                                @enderror
-                            </div>
+                            @enderror
+                        </div>
 
-                            <div class="form-group">
-                                <label>LAYANAN</label>
-                                <select class="form-control select-customer @error('customer_id') is-invalid @enderror" name="customer_id">
-                                    <option value="">- SELECT LAYANAN -</option>
-                                    @foreach ($customers as $customer)
-                                        <option value="{{ $customer->id }}">{{ $customer->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('customer_id')
+                        <div class="form-group">
+                            <label>LAYANAN</label>
+                            <select class="form-control select-customer @error('customer_id') is-invalid @enderror"
+                                name="customer_id">
+                                <option value="">- SELECT LAYANAN -</option>
+                                @foreach ($customers as $customer)
+                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('customer_id')
                                 <div class="invalid-feedback" style="display: block">
                                     {{ $message }}
                                 </div>
-                                @enderror
-                            </div>
+                            @enderror
+                        </div>
 
-                           <!--  <div class="form-group">
+                        <!--  <div class="form-group">
                                 <label>DELIVERY START</label>
                                 <input type="date" name="deliverystart"  class="form-control @error('deliverystart') is-invalid @enderror">
 
@@ -188,13 +213,14 @@
                             </div> -->
 
 
-                            <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i> SIMPAN</button>
-                            <button class="btn btn-warning btn-reset" type="reset"><i class="fa fa-redo"></i> RESET</button>
+                        <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i>
+                            SIMPAN</button>
+                        <button class="btn btn-warning btn-reset" type="reset"><i class="fa fa-redo"></i> RESET</button>
 
-                        </form>
-                    </div>
+                    </form>
                 </div>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
+</div>
 @stop

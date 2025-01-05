@@ -11,6 +11,9 @@ class Ticket extends Model
 
     protected $guarded = [];
 
+    // Ticket.php (Model)
+
+
     // Relasi dengan Project
     public function project()
     {
@@ -27,6 +30,11 @@ class Ticket extends Model
     public function sla()
     {
         return $this->belongsTo(Sla::class);
+    }
+
+    public function problem()
+    {
+        return $this->belongsTo(Problem::class, 'problemsummary');  // Pastikan relasi ini sesuai dengan kolom 'problem_id'
     }
 
     // Relasi dengan Log_email
@@ -46,4 +54,8 @@ class Ticket extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
+
+
+
 }

@@ -18,6 +18,7 @@ class CreateTicketsTable extends Migration
             $table->string('number');
             $table->foreignId('sla_id')->constrained();
             $table->foreignId('customer_id')->constrained();
+            $table->string('project_id');
             $table->integer('reportedby');
             $table->dateTime('reporteddate');
             $table->string('problemsummary');

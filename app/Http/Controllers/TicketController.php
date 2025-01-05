@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DateTime;
+use App\Models\Problem;
 use App\Models\Sla;
 use App\Models\User;
 use App\Models\Ticket;
@@ -28,13 +29,13 @@ class TicketController extends Controller
     public function index()
     {
         $tickets = Auth::user()->hasRole('Teknisi')
-            ? Ticket::with('project', 'sla', 'customer') // Memuat relasi project, sla, dan customer
+            ? Ticket::with('project', 'sla', 'customer', 'problem') // Tambahkan 'problem' di sini
                 ->where('assignee', Auth::id())
                 ->latest()
                 ->when(request()->q, function ($tickets) {
                     $tickets->where('problemsummary', 'like', '%' . request()->q . '%');
                 })->paginate(5)
-            : Ticket::with('project', 'sla', 'customer') // Memuat relasi project, sla, dan customer
+            : Ticket::with('project', 'sla', 'customer', 'problem') // Tambahkan 'problem' di sini
                 ->latest()
                 ->when(request()->q, function ($tickets) {
                     $tickets->where('problemsummary', 'like', '%' . request()->q . '%');
@@ -45,7 +46,6 @@ class TicketController extends Controller
             $ticket->ticket_number = $ticket->ticket_number ?? 'TFTTH-' . mt_rand(100000, 999999);
             return $ticket;
         });
-
         return view('tickets.index', compact('tickets'));
     }
 
@@ -56,9 +56,15 @@ class TicketController extends Controller
      */
     public function create()
     {
+        // $slas = Sla::orderBy('name', 'asc')->get();
+        // $users = User::role('teknisi')->get();
+        // return view('tickets.create', compact('slas', 'users'));
+
         $slas = Sla::orderBy('name', 'asc')->get();
         $users = User::role('teknisi')->get();
-        return view('tickets.create', compact('slas', 'users'));
+        $problems = Problem::orderBy('name', 'asc')->get(); // Mengambil data problem summary
+        return view('tickets.create', compact('slas', 'users', 'problems'));
+
     }
 
     /**
@@ -125,7 +131,13 @@ class TicketController extends Controller
     {
         $ticket = Ticket::findOrFail($id);
 
-        // Format tanggal menggunakan DateTime
+        // Ambil data yang diperlukan untuk dropdown
+        $slas = Sla::orderBy('name', 'asc')->get();
+        $users = User::role('teknisi')->get();
+        $customers = Customer::all(); // Ambil semua customer
+        $problems = Problem::orderBy('name', 'asc')->get(); // Ambil semua problem
+
+        // Format tanggal jika ada nilainya
         if ($ticket->reporteddate) {
             $reportedDate = new DateTime($ticket->reporteddate);
             $ticket->reporteddate = $reportedDate->format('Y-m-d\TH:i');
@@ -139,10 +151,7 @@ class TicketController extends Controller
             $ticket->pendingdate = $pendingdate->format('Y-m-d\TH:i');
         }
 
-        $slas = Sla::orderBy('name', 'asc')->get();
-        $users = User::role('teknisi')->get();
-        $customer = Customer::all();
-        return view('tickets.edit', compact('ticket', 'slas', 'users', 'customer'));
+        return view('tickets.edit', compact('ticket', 'slas', 'users', 'customers', 'problems'));
     }
 
     /**

@@ -7,6 +7,25 @@
             <h1>New Ticket</h1>
         </div>
 
+        <style>
+            body {
+                overflow-x: hidden;
+                /* Menonaktifkan scroll horizontal */
+            }
+
+            .section-body {
+                width: 100%;
+                /* Pastikan elemen ini tidak lebih lebar dari layar */
+                overflow-x: hidden;
+                /* Menyembunyikan scroll horizontal pada elemen ini */
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+                /* Memastikan tabel bisa di-scroll horizontal tanpa menyebabkan scroll global */
+            }
+        </style>
+
         <div class="section-body">
             <div class="card">
                 <div class="card-header">
@@ -60,9 +79,27 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label>PROBLEM SUMMARY</label>
                                 <input type="text" name="summary" value="{{ old('summary') }}" class="form-control">
+                                @error('summary')
+                                    <div class="invalid-feedback" style="display: block">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div> -->
+
+                            <div class="form-group">
+                                <label>PROBLEM SUMMARY</label>
+                                <select class="form-control select-summary @error('summary') is-invalid @enderror"
+                                    name="summary">
+                                    <option value="">- SELECT PROBLEM SUMMARY -</option>
+                                    @foreach ($problems as $problem)
+                                        <option value="{{ $problem->id }}" {{ old('summary') == $problem->id ? 'selected' : '' }}>
+                                            {{ $problem->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 @error('summary')
                                     <div class="invalid-feedback" style="display: block">
                                         {{ $message }}
