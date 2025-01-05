@@ -23,9 +23,9 @@
     <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    @stack('scripts')  <!-- Tambahkan ini -->
+    @stack('scripts') <!-- Tambahkan ini -->
     <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  <!-- Tambahkan ini -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Tambahkan ini -->
 
     <livewire:styles />
 
@@ -65,11 +65,12 @@
             </nav>
             <div class="main-sidebar sidebar-style-2">
                 <aside id="sidebar-wrapper">
-                <div class="sidebar-brand d-flex align-items-center">
-                        <img src="{{ asset('assets/img/Artacom1_transparent_Craiyon.png') }}" alt="Logo" class="mr-2px" style="width: 40px; height: 40px;">
+                    <div class="sidebar-brand d-flex align-items-center">
+                        <img src="{{ asset('assets/img/Artacom1_transparent_Craiyon.png') }}" alt="Logo" class="mr-2px"
+                            style="width: 40px; height: 40px;">
                         <a href="{{ route('dashboard') }}" class="text-decoration-none">TICKETING SYSTEM</a>
-                        </div>
-                        <div class="sidebar-brand sidebar-brand-sm">
+                    </div>
+                    <div class="sidebar-brand sidebar-brand-sm">
                         <a href="{{ route('dashboard') }}">TST</a>
                     </div>
                     <ul class="sidebar-menu">
@@ -81,14 +82,14 @@
                             </a>
                         </li>
                         @can('tickets.index')
-                        <li class="{{ setActive('/tickets') }}">
-                            <a class="nav-link" href="{{ route('tickets.index') }}">
-                                <i class="fas fa-ticket-alt"></i>
-                                <span>Ticket</span>
-                            </a>
-                        </li>
+                            <li class="{{ setActive('/tickets') }}">
+                                <a class="nav-link" href="{{ route('tickets.index') }}">
+                                    <i class="fas fa-ticket-alt"></i>
+                                    <span>Ticket</span>
+                                </a>
+                            </li>
                         @endcan
-                        
+
                         <!-- Untuk menambahkan informasi uncoment saja code ini -->
                         <!-- @can('news.index')
                         <li class="{{ setActive('/news') }}">
@@ -102,64 +103,64 @@
 
 
                         @can('projects.index')
-                        <li class="{{ setActive('/projects') }}">
-                            <a class="nav-link" href="{{ route('projects.index') }}">
-                                <i class="fas fa-project-diagram"></i>
-                                <span>Data Pelanggan</span>
-                            </a>
-                        </li> 
+                            <li class="{{ setActive('/projects') }}">
+                                <a class="nav-link" href="{{ route('projects.index') }}">
+                                    <i class="fas fa-project-diagram"></i>
+                                    <span>Data Pelanggan</span>
+                                </a>
+                            </li>
                         @endcan
 
                         @can('customers.index')
-                        <li class="{{ setActive('/customers') }}">
-                            <a class="nav-link" href="{{ route('customers.index') }}">
-                                <i class="fas fa-user-tie"></i>
-                                <span>Customers</span>
-                            </a>
-                        </li> 
+                            <li class="{{ setActive('/customers') }}">
+                                <a class="nav-link" href="{{ route('customers.index') }}">
+                                    <i class="fas fa-user-tie"></i>
+                                    <span>Customers</span>
+                                </a>
+                            </li>
                         @endcan
 
                         @can('slas.index')
-                        <li class="{{ setActive('/slas') }}">
-                            <a class="nav-link" href="{{ route('slas.index') }}">
-                                <i class="fas fa-file-medical-alt"></i>
-                                <span>SLA</span>
-                            </a>
-                        </li> 
+                            <li class="{{ setActive('/slas') }}">
+                                <a class="nav-link" href="{{ route('slas.index') }}">
+                                    <i class="fas fa-file-medical-alt"></i>
+                                    <span>SLA</span>
+                                </a>
+                            </li>
                         @endcan
 
                         @can('permissions.index')
-                        <li class="menu-header">SETTING</li>
-                        <li class="{{ setActive('/permissions') }}">
-                            <a class="nav-link" href="{{route('permissions.index') }}">
-                                <i class="fas fa-unlock-alt"></i>
-                                <span>Permissions</span> 
-                            </a>
-                        </li>
+                            <li class="menu-header">SETTING</li>
+                            <li class="{{ setActive('/permissions') }}">
+                                <a class="nav-link" href="{{route('permissions.index') }}">
+                                    <i class="fas fa-unlock-alt"></i>
+                                    <span>Permissions</span>
+                                </a>
+                            </li>
                         @endcan
                         @can('roles.index')
-                        <li class="{{ setActive('/roles') }}">
-                            <a class="nav-link" href="{{ route('roles.index') }}">
-                                <i class="fas fa-unlock"> </i> 
-                                <span>Roles</span> 
-                            </a>
-                        </li>
+                            <li class="{{ setActive('/roles') }}">
+                                <a class="nav-link" href="{{ route('roles.index') }}">
+                                    <i class="fas fa-unlock"> </i>
+                                    <span>Roles</span>
+                                </a>
+                            </li>
                         @endcan
                         @can('users.index')
-                        <li class="{{ setActive('/user') }}">
-                            <a class="nav-link" href="{{ route('users.index') }}">
-                                <i class="fas fa-users"></i> 
-                                <span>Users</span>
-                            </a>
-                        </li>
+                            <li class="{{ setActive('/user') }}">
+                                <a class="nav-link" href="{{ route('users.index') }}">
+                                    <i class="fas fa-users"></i>
+                                    <span>Users</span>
+                                </a>
+                            </li>
                         @endcan
                         @can('log_users.index')
-                        <li class="{{ setActive('/user-log') }}">
-                            <a class="nav-link" href="{{ route('userlog.index') }}">
-                                <i class="fas fa-list"></i> 
-                                <span>User Logs</span>
-                            </a>
-                        </li>
+                            <li class="{{ setActive('/user-log') }}">
+                                <a class="nav-link" href="{{ route('userlog.index') }}">
+                                    <i class="fas fa-list"></i>
+                                    <span>User Logs</span>
+                                </a>
+                            </li>
                         @endcan
                     </ul>
                 </aside>
@@ -170,28 +171,33 @@
 
             <footer class="main-footer">
                 <div class="footer-left">
-                    Copyright &copy; 2025 <div class="bullet"></div> Ahmad Rizki <div class="bullet"></div> Tiketing System <div class="bullet"></div> All Rights
+                    Copyright &copy; 2025 <div class="bullet"></div> Ahmad Rizki <div class="bullet"></div> Tiketing
+                    System <div class="bullet"></div> All Rights
                     Reserved.
                 </div>
                 <div class="footer-right">
 
                 </div>
             </footer>
-                <style>
-                        .main-footer {
-                            font-size: 18px; /* Mengubah ukuran font */
-                            padding: 20px 0; /* Menambah jarak atas dan bawah footer */
-                            margin-left: 300px;
-                        }
+            <style>
+                .main-footer {
+                    font-size: 18px;
+                    /* Mengubah ukuran font */
+                    padding: 20px 0;
+                    /* Menambah jarak atas dan bawah footer */
+                    margin-left: 300px;
+                }
 
-                        .footer-left {
-                            font-weight: bold; /* Mengubah font menjadi tebal */
-                        }
+                .footer-left {
+                    font-weight: bold;
+                    /* Mengubah font menjadi tebal */
+                }
 
-                        .bullet {
-                            font-size: 22px; /* Menyesuaikan ukuran bullet */
-                            margin: 0 10px;
-                        }
+                .bullet {
+                    font-size: 22px;
+                    /* Menyesuaikan ukuran bullet */
+                    margin: 0 10px;
+                }
             </style>
         </div>
     </div>
@@ -201,7 +207,8 @@
     <script src="{{ asset('assets/modules/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/modules/nicescroll/jquery.nicescroll.min.js') }}"></script>
     <script src="{{ asset('assets/js/stisla.js') }}"></script>
-    {{-- <script src="{{ asset('assets/modules/select2/dist/js/select2.full.min.js') }}"></script> --}}
+    {{--
+    <script src="{{ asset('assets/modules/select2/dist/js/select2.full.min.js') }}"></script> --}}
     <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
 
 
@@ -222,28 +229,28 @@
         // });
 
         //flash message
-        @if(session()-> has('success'))
-        swal({
-            type: "success",
-            icon: "success",
-            title: "BERHASIL!",
-            text: "{{ session('success') }}",
-            timer: 1500,
-            showConfirmButton: false,
-            showCancelButton: false,
-            buttons: false,
-        });
-        @elseif(session()-> has('error'))
-        swal({
-            type: "error",
-            icon: "error",
-            title: "GAGAL!",
-            text: "{{ session('error') }}",
-            timer: 1500,
-            showConfirmButton: false,
-            showCancelButton: false,
-            buttons: false,
-        });
+        @if(session()->has('success'))
+            swal({
+                type: "success",
+                icon: "success",
+                title: "BERHASIL!",
+                text: "{{ session('success') }}",
+                timer: 1500,
+                showConfirmButton: false,
+                showCancelButton: false,
+                buttons: false,
+            });
+        @elseif(session()->has('error'))
+            swal({
+                type: "error",
+                icon: "error",
+                title: "GAGAL!",
+                text: "{{ session('error') }}",
+                timer: 1500,
+                showConfirmButton: false,
+                showCancelButton: false,
+                buttons: false,
+            });
         @endif
     </script>
 
@@ -259,11 +266,12 @@
     <livewire:scripts />
 
     <script>
-    $(document).ready(function() {
-        $('.sidebar-toggle').on('click', function() {
-            $('#sidebar-wrapper').toggleClass('active');
+        $(document).ready(function () {
+            $('.sidebar-toggle').on('click', function () {
+                $('#sidebar-wrapper').toggleClass('active');
+            });
         });
-    });
-</script>
+    </script>
 </body>
+
 </html>

@@ -111,15 +111,17 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($allReports as $no => $item)
-                                            <tr>
-                                                <td style="text-align: center">{{ $no + 1 }}</td>
-                                                <td>{{ $item['name'] }}</td>
-                                                <td><span class="badge badge-primary">{{ $item['assigned'] }}</span></td>
-                                                <td><span class="badge badge-danger">{{ $item['expired'] }}</span></td>
-                                                <td><span class="badge badge-warning">{{ $item['warning'] }}</span></td>
-                                                <td><span class="badge badge-dark">{{ $item['pending'] }}</span></td>
-                                                <td><span class="badge badge-success">{{ $item['done'] ?? 0 }}</span></td>
-                                            </tr>
+                                                <tr>
+                                                    <td style="text-align: center">{{ $no + 1 }}</td>
+                                                    <td>{{ $item['name'] }}</td>
+                                                    <td><span class="badge badge-primary">{{ $item['assigned'] }}</span>
+                                                    </td>
+                                                    <td><span class="badge badge-danger">{{ $item['expired'] }}</span></td>
+                                                    <td><span class="badge badge-warning">{{ $item['warning'] }}</span></td>
+                                                    <td><span class="badge badge-dark">{{ $item['pending'] }}</span></td>
+                                                    <td><span class="badge badge-success">{{ $item['done'] ?? 0 }}</span>
+                                                    </td>
+                                                </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -136,16 +138,17 @@
                             </div>
                             <div class="card-body">
                                 @foreach ($news as $item)
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item list-group-item-action list-group-item-light flex-column align-items-start mb-3">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h5 class="mb-2">{{ $item->title }}</h5>
-                                        </div>
-                                        <p class="mb-2">{{ $item->detail }}</p>
-                                        <small>created by: {{ $user->getName($item->user_id) }}</small>
-                                        <small> - {{ Carbon\Carbon::parse($item->updated_at)->diffForHumans() }}</small>
-                                    </a>
-                                </div>
+                                    <div class="list-group">
+                                        <a href="#"
+                                            class="list-group-item list-group-item-action list-group-item-light flex-column align-items-start mb-3">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-2">{{ $item->title }}</h5>
+                                            </div>
+                                            <p class="mb-2">{{ $item->detail }}</p>
+                                            <small>created by: {{ $user->getName($item->user_id) }}</small>
+                                            <small> - {{ Carbon\Carbon::parse($item->updated_at)->diffForHumans() }}</small>
+                                        </a>
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
@@ -158,82 +161,82 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Mengambil data dari card statistik yang sudah ada
-    const monthlyData = {
-        dibuka: {{ $report->getMonthlyTickets() ?? '0' }},
-        warning: {{ $report->getOverdueTickets('yellow') ?? '0' }},
-        expired: {{ $report->getOverdueTickets('red') ?? '0' }},
-        selesai: {{ $report->getMonthlyDoneTickets() ?? '0' }}
+    document.addEventListener('DOMContentLoaded', function () {
+        // Mengambil data dari card statistik yang sudah ada
+        const monthlyData = {
+            dibuka: {{ $report->getMonthlyTickets() ?? '0' }},
+            warning: {{ $report->getOverdueTickets('yellow') ?? '0' }},
+            expired: {{ $report->getOverdueTickets('red') ?? '0' }},
+            selesai: {{ $report->getMonthlyDoneTickets() ?? '0' }}
     };
 
-    const ctx = document.getElementById('ticketStatsChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'bar', // Menggunakan tipe bar untuk visualisasi yang lebih jelas
-        data: {
-            labels: ['Status Tiket Bulan Ini'],
-            datasets: [
-                {
-                    label: 'Tiket Bulan Ini',
-                    data: [monthlyData.dibuka],
-                    backgroundColor: '#6777ef',
-                    borderColor: '#6777ef',
-                    borderWidth: 1
+        const ctx = document.getElementById('ticketStatsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar', // Menggunakan tipe bar untuk visualisasi yang lebih jelas
+            data: {
+                labels: ['Status Tiket Bulan Ini'],
+                datasets: [
+                    {
+                        label: 'Tiket Bulan Ini',
+                        data: [monthlyData.dibuka],
+                        backgroundColor: '#6777ef',
+                        borderColor: '#6777ef',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Mendekati SLA',
+                        data: [monthlyData.warning],
+                        backgroundColor: '#ffa426',
+                        borderColor: '#ffa426',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'SLA Terlampaui',
+                        data: [monthlyData.expired],
+                        backgroundColor: '#fc544b',
+                        borderColor: '#fc544b',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Tiket Selesai',
+                        data: [monthlyData.selesai],
+                        backgroundColor: '#63ed7a',
+                        borderColor: '#63ed7a',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Jumlah Tiket'
+                        }
+                    }
                 },
-                {
-                    label: 'Mendekati SLA',
-                    data: [monthlyData.warning],
-                    backgroundColor: '#ffa426',
-                    borderColor: '#ffa426',
-                    borderWidth: 1
-                },
-                {
-                    label: 'SLA Terlampaui',
-                    data: [monthlyData.expired],
-                    backgroundColor: '#fc544b',
-                    borderColor: '#fc544b',
-                    borderWidth: 1
-                },
-                {
-                    label: 'Tiket Selesai',
-                    data: [monthlyData.selesai],
-                    backgroundColor: '#63ed7a',
-                    borderColor: '#63ed7a',
-                    borderWidth: 1
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20
+                        }
+                    },
                     title: {
                         display: true,
-                        text: 'Jumlah Tiket'
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        padding: 20
-                    }
-                },
-                title: {
-                    display: true,
-                    text: 'Statistik Tiket Bulan Ini',
-                    padding: {
-                        top: 10,
-                        bottom: 30
+                        text: 'Statistik Tiket Bulan Ini',
+                        padding: {
+                            top: 10,
+                            bottom: 30
+                        }
                     }
                 }
             }
-        }
+        });
     });
-});
 </script>
 
 @endsection

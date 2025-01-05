@@ -14,7 +14,8 @@
                 </div>
 
                 <div class="d-flex justify-content-end ">
-                    <a href="{{ route('ticket.report') }}" class="btn btn-success" style="width: 150px; height: 35px; margin-right: 25px">Export Tickets</a>
+                    <a href="{{ route('ticket.report') }}" class="btn btn-success"
+                        style="width: 150px; height: 35px; margin-right: 25px">Export Tickets</a>
                 </div>
 
                 <div class="card-body">
@@ -23,12 +24,15 @@
                             <div class="input-group mb-3">
                                 @can('tickets.create')
                                     <div class="input-group-prepend">
-                                        <a href="{{ route('tickets.create') }}" class="btn btn-primary" style="padding-top: 10px;"><i class="fa fa-plus-circle"></i> TAMBAH</a>
+                                        <a href="{{ route('tickets.create') }}" class="btn btn-primary"
+                                            style="padding-top: 10px;"><i class="fa fa-plus-circle"></i> TAMBAH</a>
                                     </div>
                                 @endcan
-                                <input type="text" class="form-control" name="q" placeholder="cari berdasarkan masalah">
+                                <input type="text" class="form-control" name="q"
+                                    placeholder="Search bedasarkan No-Ticket">
                                 <div class="input-group-append">
-                                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> CARI</button>
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>
+                                        CARI</button>
                                 </div>
                             </div>
                         </div>
@@ -51,39 +55,47 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach ($tickets as $no => $ticket)
-                                <tr>
-                                    <th scope="row" style="text-align: center">{{ ++$no + ($tickets->currentPage()-1) * $tickets->perPage() }}</th>
-                                    <td>{{ $ticket->number }}</td>
-                                    <td>{{ $ticket->sla->name }}</td>
-                                    <td>{{ $ticket->customer->name }}</td>
-                                    <!-- <td>
-                                        {{ $ticket->project ? $ticket->project->id_pel : 'Tidak ada' }}
-                                    </td> -->
-                                    <td>{{ date('d M Y - H:i', strtotime($ticket->reporteddate)) }}</td>
-                                    <td>{{ $ticket->problemsummary }}</td>
-                                    <td>
-                                        {{ $ticket->pendingdate ? date('d M Y - H:i', strtotime($ticket->pendingdate)) : 'Tidak Ada Pending' }}
-                                    </td>
-                                    <td>
-                                        {{ $ticket->closeddate ? date('d M Y - H:i', strtotime($ticket->closeddate)) : 'Belum Ditutup' }}
-                                    </td>
-                                    <td>{{ $ticket->status }}</td>
-                                    <td class="text-center">
-                                        @can('tickets.edit')
-                                            <a href="{{ route('tickets.edit', $ticket->id) }}" class="btn btn-sm btn-primary">
-                                                <i class="fa fa-pencil-alt"></i>
-                                            </a>
-                                        @endcan
+                                @foreach ($tickets as $no => $ticket)
+                                    <tr>
+                                        <th scope="row" style="text-align: center">
+                                            {{ ++$no + ($tickets->currentPage() - 1) * $tickets->perPage() }}
+                                        </th>
 
-                                        @can('tickets.delete')
-                                            <button onClick="Delete(this.id)" class="btn btn-sm btn-danger" id="{{ $ticket->id }}">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        @endcan
-                                    </td>
-                                </tr>
-                            @endforeach
+                                        <th scope="row" style="text-align: center">
+                                            {{ $ticket->number }}
+                                        </th>
+
+                                        <td>{{ $ticket->sla->name }}</td>
+                                        <td>{{ $ticket->customer->name }}</td>
+                                        <!-- <td>
+                                                                                                                {{ $ticket->project ? $ticket->project->id_pel : 'Tidak ada' }}
+                                                                                                            </td> -->
+                                        <td>{{ date('d M Y - H:i', strtotime($ticket->reporteddate)) }}</td>
+                                        <td>{{ $ticket->problemsummary }}</td>
+                                        <td>
+                                            {{ $ticket->pendingdate ? date('d M Y - H:i', strtotime($ticket->pendingdate)) : 'Tidak Ada Pending' }}
+                                        </td>
+                                        <td>
+                                            {{ $ticket->closeddate ? date('d M Y - H:i', strtotime($ticket->closeddate)) : 'Belum Ditutup' }}
+                                        </td>
+                                        <td>{{ $ticket->status }}</td>
+                                        <td class="text-center">
+                                            @can('tickets.edit')
+                                                <a href="{{ route('tickets.edit', $ticket->id) }}"
+                                                    class="btn btn-sm btn-primary">
+                                                    <i class="fa fa-pencil-alt"></i>
+                                                </a>
+                                            @endcan
+
+                                            @can('tickets.delete')
+                                                <button onClick="Delete(this.id)" class="btn btn-sm btn-danger"
+                                                    id="{{ $ticket->id }}">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         <div style="text-align: center">
@@ -110,7 +122,7 @@
                 'YA'
             ],
             dangerMode: true,
-        }).then(function(isConfirm) {
+        }).then(function (isConfirm) {
             if (isConfirm) {
                 jQuery.ajax({
                     url: "{{ route('tickets.index') }}/" + id,
@@ -119,7 +131,7 @@
                         "_token": token
                     },
                     type: 'DELETE',
-                    success: function(response) {
+                    success: function (response) {
                         if (response.status == "success") {
                             swal({
                                 title: 'BERHASIL!',
@@ -129,7 +141,7 @@
                                 showConfirmButton: false,
                                 showCancelButton: false,
                                 buttons: false,
-                            }).then(function() {
+                            }).then(function () {
                                 location.reload();
                             });
                         } else {
@@ -141,7 +153,7 @@
                                 showConfirmButton: false,
                                 showCancelButton: false,
                                 buttons: false,
-                            }).then(function() {
+                            }).then(function () {
                                 location.reload();
                             });
                         }

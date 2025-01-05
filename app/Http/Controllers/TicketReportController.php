@@ -25,7 +25,7 @@ class TicketReportController extends Controller
             'F1' => 'Closed Date',
             'G1' => 'Pending Date',
             'H1' => 'Status'
-        
+
         ];
 
         // Menerapkan header
@@ -37,19 +37,20 @@ class TicketReportController extends Controller
 
         // Mengambil data tiket dengan relasi yang dibutuhkan
         $tickets = Ticket::with(['project', 'customer'])
-                        ->orderBy('number')
-                        ->get();
+            ->orderBy('number')
+            ->get();
 
         // Menyusun data tiket dalam Excel
         $row = 2; // Dimulai dari baris kedua setelah header
         foreach ($tickets as $ticket) {
             // Mengambil data project (yang berisi name, id_pel, dan ip)
-            $projectInfo = $ticket->project ? 
-                          sprintf("%s | %s | %s", 
-                              $ticket->project->name ?? 'N/A',
-                              $ticket->project->id_pel ?? 'N/A',
-                              $ticket->project->ip ?? 'N/A'
-                          ) : 'N/A';
+            $projectInfo = $ticket->project ?
+                sprintf(
+                    "%s | %s | %s",
+                    $ticket->project->name ?? 'N/A',
+                    $ticket->project->id_pel ?? 'N/A',
+                    $ticket->project->ip ?? 'N/A'
+                ) : 'N/A';
 
             $sheet->setCellValue('A' . $row, $ticket->number);
             $sheet->setCellValue('B' . $row, $projectInfo);
@@ -59,7 +60,7 @@ class TicketReportController extends Controller
             $sheet->setCellValue('F' . $row, $ticket->closeddate ? date('Y-m-d H:i:s', strtotime($ticket->closeddate)) : 'N/A');
             $sheet->setCellValue('G' . $row, $ticket->pendingdate ? date('Y-m-d H:i:s', strtotime($ticket->pendingdate)) : 'N/A');
             $sheet->setCellValue('H' . $row, $ticket->status);
-            
+
             $row++;
         }
 
@@ -76,7 +77,7 @@ class TicketReportController extends Controller
 
         // Mengirim file sebagai response
         return response()->stream(
-            function() use ($writer) {
+            function () use ($writer) {
                 $writer->save('php://output');
             },
             200,

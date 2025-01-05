@@ -16,7 +16,8 @@
         <!-- PROJECT SEARCH -->
         <div class="form-group">
             <label>SEARCH PELANGGAN</label>
-            <input type="text" id="search-project" class="form-control" placeholder="Search by Name, ID-Pel, or IP Address" />
+            <input type="text" id="search-project" class="form-control"
+                placeholder="Search by Name, ID-Pel, or IP Address" />
 
             <!-- Search Results -->
             <ul id="project-results" class="list-group mt-2" style="display: none;">
@@ -73,14 +74,14 @@
                     const listItem = document.createElement('li');
                     listItem.className = 'list-group-item';
                     listItem.textContent = `${project.name} | ${project.id_pel} | ${project.ip}`;
-                    
+
                     // When an item is clicked, emit Livewire event
                     listItem.addEventListener('click', () => {
                         Livewire.emit('updatedSelectedProject', project.id); // Emit Livewire event with project ID
                         searchInput.value = `${project.name} | ${project.id_pel} | ${project.ip}`;
                         resultsContainer.style.display = 'none'; // Hide results after selection
                     });
-                    
+
                     resultsContainer.appendChild(listItem);
                 });
 

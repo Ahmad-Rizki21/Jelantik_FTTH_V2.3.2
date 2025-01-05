@@ -31,10 +31,11 @@ class MailNotify extends Mailable
      */
     public function build()
     {
-        return $this->from('helpdeskteam@hlp.com')
-                    ->view('emails.notify')
-                    ->with([
-                        'ticketNumber' => $this->ticket->number
-                    ]);;
+        return $this->from('admin@gmail.com')
+            ->view('emails.notify')
+            ->with([
+                'ticketNumber' => $this->ticket->number
+            ]);
+        ;
     }
 }

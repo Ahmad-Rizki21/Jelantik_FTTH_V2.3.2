@@ -19,9 +19,6 @@ class TicketController extends Controller
     {
         $this->middleware(['permission:tickets.index|tickets.create|tickets.edit|tickets.delete']);
     }
-    
-    
-    
 
     /**
      * Display a listing of the resource.
@@ -30,31 +27,26 @@ class TicketController extends Controller
      */
     public function index()
     {
-        
-        // $tickets = Auth::user()->hasRole('Teknisi')
-        //     ? Ticket::where('assignee', Auth::id())->latest()->when(request()->q, function ($tickets) {
-        //         $tickets->where('problemsummary', 'like', '%' . request()->q . '%');
-        //     })->paginate(5)
-        //     : Ticket::latest()->when(request()->q, function ($tickets) {
-        //         $tickets->where('problemsummary', 'like', '%' . request()->q . '%');
-        //     })->paginate(5);
-
         $tickets = Auth::user()->hasRole('Teknisi')
-        ? Ticket::with('project', 'sla', 'customer') // Memuat relasi project, sla, dan customer
-            ->where('assignee', Auth::id())
-            ->latest()
-            ->when(request()->q, function ($tickets) {
-                $tickets->where('problemsummary', 'like', '%' . request()->q . '%');
-            })->paginate(5)
-        : Ticket::with('project', 'sla', 'customer') // Memuat relasi project, sla, dan customer
-            ->latest()
-            ->when(request()->q, function ($tickets) {
-                $tickets->where('problemsummary', 'like', '%' . request()->q . '%');
-            })->paginate(5);
+            ? Ticket::with('project', 'sla', 'customer') // Memuat relasi project, sla, dan customer
+                ->where('assignee', Auth::id())
+                ->latest()
+                ->when(request()->q, function ($tickets) {
+                    $tickets->where('problemsummary', 'like', '%' . request()->q . '%');
+                })->paginate(5)
+            : Ticket::with('project', 'sla', 'customer') // Memuat relasi project, sla, dan customer
+                ->latest()
+                ->when(request()->q, function ($tickets) {
+                    $tickets->where('problemsummary', 'like', '%' . request()->q . '%');
+                })->paginate(5);
 
-    return view('tickets.index', compact('tickets'));
+        // Menambahkan nomor tiket dengan format random "TFTTH-"
+        $tickets->getCollection()->transform(function ($ticket) {
+            $ticket->ticket_number = $ticket->ticket_number ?? 'TFTTH-' . mt_rand(100000, 999999);
+            return $ticket;
+        });
 
-        // return view('tickets.index', compact('tickets'));
+        return view('tickets.index', compact('tickets'));
     }
 
     /**
@@ -75,6 +67,7 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
+
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -86,12 +79,11 @@ class TicketController extends Controller
             'technician_id' => 'required',
         ]);
 
-        $year = today()->year;
-        $latest_ticket = Ticket::latest()->first();
-        $new_number = $latest_ticket ? (int)Str::of($latest_ticket->number)->explode('/')->get(0) + 1 : 1;
+        // Membuat nomor tiket dengan format TFTTH-XXXXXX
+        $ticket_number = 'TFTTH-' . mt_rand(100000, 999999);
 
         $ticket = Ticket::create([
-            'number' => "$new_number/$year",
+            'number' => $ticket_number,
             'sla_id' => $request->input('sla_id'),
             'reportedby' => Auth::id(),
             'customer_id' => $request->input('updated_customer'),
@@ -109,6 +101,7 @@ class TicketController extends Controller
         }
         return redirect()->route('tickets.index')->with(['error' => 'Tiket Gagal Dibuat']);
     }
+
 
     /**
      * Display the specified resource.
@@ -128,38 +121,30 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    // public function edit($id)
-    // {
-    //     $ticket = Ticket::findOrFail($id);
-    //     $slas = Sla::orderBy('name', 'asc')->get();
-    //     $users = User::role('teknisi')->get();
-    //     $customer = Customer::all();
-    //     return view('tickets.edit', compact('ticket', 'slas', 'users', 'customer'));
-    // }
-
     public function edit($id)
     {
         $ticket = Ticket::findOrFail($id);
-        
+
         // Format tanggal menggunakan DateTime
-        if($ticket->reporteddate) {
+        if ($ticket->reporteddate) {
             $reportedDate = new DateTime($ticket->reporteddate);
             $ticket->reporteddate = $reportedDate->format('Y-m-d\TH:i');
         }
-        if($ticket->closeddate) {
+        if ($ticket->closeddate) {
             $closedDate = new DateTime($ticket->closeddate);
             $ticket->closeddate = $closedDate->format('Y-m-d\TH:i');
         }
-        if($ticket->pendingdate) {
+        if ($ticket->pendingdate) {
             $pendingdate = new DateTime($ticket->pendingdate);
             $ticket->pendingdate = $pendingdate->format('Y-m-d\TH:i');
         }
-        
+
         $slas = Sla::orderBy('name', 'asc')->get();
         $users = User::role('teknisi')->get();
         $customer = Customer::all();
         return view('tickets.edit', compact('ticket', 'slas', 'users', 'customer'));
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -167,75 +152,43 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    // public function update(Request $request, $id)
-    // {
-    //     $this->validate($request, [
-    //         'updated_customer' => 'required',
-    //         'reporteddate' => 'required|date',
-    //         'sla_id' => 'required',
-    //         'summary' => 'required',
-    //         'detail' => 'required',
-    //         'technician_id' => 'required',
-    //         'closeddate'=> 'required|date',
-    //     ]);
-
-    //     $ticket = Ticket::findOrFail($id);
-    //     $ticket->update($request->only([
-    //         'sla_id', 'customer_id', 'reporteddate', 'problemsummary', 'problemdetail', 'assignee', 'resolution', 'closeddate', 'status'
-    //     ]));
-
-    //     if ($ticket) {
-    //         event(new ProvidersLogActivity(Auth::user(), 'Memperbaharui Tiket No ' . $ticket->number));
-    //         return redirect()->route('tickets.index')->with(['success' => 'Tiket Berhasil Diupdate!']);
-    //     }
-    //     return redirect()->route('tickets.index')->with(['error' => 'Tiket Gagal Diupdate!']);
-    // }
-
     public function update(Request $request, $id)
-{
-    // Validasi dasar
-    $this->validate($request, [
-        'updated_customer' => 'required',
-        'sla_id' => 'required',
-        'summary' => 'required',
-        'detail' => 'required',
-        'technician_id' => 'required',
-        // Ubah validasi untuk pendingdate dan closeddate
-        'pendingdate' => 'required_if:status,Pending|nullable|date',
-        'closeddate' => 'required_if:status,Closed|nullable|date',
-    ]);
+    {
+        $this->validate($request, [
+            'updated_customer' => 'required',
+            'sla_id' => 'required',
+            'summary' => 'required',
+            'detail' => 'required',
+            'technician_id' => 'required',
+            'pendingdate' => 'required_if:status,Pending|nullable|date',
+            'closeddate' => 'required_if:status,Closed|nullable|date',
+        ]);
 
-    $ticket = Ticket::findOrFail($id);
-    
-    // Simpan reporteddate yang lama
-    $originalReportedDate = $ticket->reporteddate;
-    
-    // Format tanggal hanya jika ada nilainya
-    $pendingDate = $request->pendingdate ? (new DateTime($request->pendingdate))->format('Y-m-d H:i:s') : null;
-    $closedDate = $request->closeddate ? (new DateTime($request->closeddate))->format('Y-m-d H:i:s') : null;
-    
-    $ticket->update([
-        'sla_id' => $request->sla_id,
-        'customer_id' => $request->updated_customer,
-        'problemsummary' => $request->summary,
-        'problemdetail' => $request->detail,
-        'assignee' => $request->technician_id,
-        'resolution' => $request->resolution,
-        'pendingdate' => $pendingDate,
-        'closeddate' => $closedDate,
-        'status' => $request->status
-    ]);
-    
-    // Kembalikan reporteddate ke nilai aslinya
-    $ticket->reporteddate = $originalReportedDate;
-    $ticket->save();
+        $ticket = Ticket::findOrFail($id);
 
-    if ($ticket) {
-        event(new ProvidersLogActivity(Auth::user(), 'Memperbaharui Tiket No ' . $ticket->number));
-        return redirect()->route('tickets.index')->with(['success' => 'Tiket Berhasil Diupdate!']);
+        // Format tanggal jika ada nilainya
+        $pendingDate = $request->pendingdate ? (new DateTime($request->pendingdate))->format('Y-m-d H:i:s') : null;
+        $closedDate = $request->closeddate ? (new DateTime($request->closeddate))->format('Y-m-d H:i:s') : null;
+
+        $ticket->update([
+            'sla_id' => $request->sla_id,
+            'customer_id' => $request->updated_customer,
+            'problemsummary' => $request->summary,
+            'problemdetail' => $request->detail,
+            'assignee' => $request->technician_id,
+            'resolution' => $request->resolution,
+            'pendingdate' => $pendingDate,
+            'closeddate' => $closedDate,
+            'status' => $request->status,
+        ]);
+
+        if ($ticket) {
+            event(new ProvidersLogActivity(Auth::user(), 'Memperbaharui Tiket No ' . $ticket->number));
+            return redirect()->route('tickets.index')->with(['success' => 'Tiket Berhasil Diupdate!']);
+        }
+        return redirect()->route('tickets.index')->with(['error' => 'Tiket Gagal Diupdate!']);
     }
-    return redirect()->route('tickets.index')->with(['error' => 'Tiket Gagal Diupdate!']);
-}
+
 
     /**
      * Remove the specified resource from storage.
@@ -253,6 +206,7 @@ class TicketController extends Controller
         }
         return response()->json(['status' => 'error']);
     }
+
     public function closeTicket(Ticket $ticket)
     {
         try {
